@@ -1,0 +1,14 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Invitation//Wedding Invitation//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:anjalika-kaveesha-20261015@invitation
+DTSTAMP:20260805T000000Z
+DTSTART:20261015T040000Z
+DTEND:20261015T060000Z
+SUMMARY:Anjalika & Kaveesha Wedding - Poruwa Ceremony
+DESCRIPTION:Poruwa Ceremony for Anjalika and Kaveesha
+LOCATION:The Kingsbury Hotel, Colombo
+END:VEVENT
+END:VCALENDAR
