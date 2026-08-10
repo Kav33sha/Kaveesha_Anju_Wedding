@@ -1549,12 +1549,12 @@ body.invitation-opening .curtain-stage__glow {
   margin: 0 auto;
   text-align: center;
   position: relative;
-  padding: 24px;
-  border-radius: 36px;
-  background: linear-gradient(180deg, rgba(255, 252, 246, 0.88), rgba(247, 250, 245, 0.72));
-  border: 1px solid rgba(222, 206, 171, 0.4);
-  box-shadow: 0 24px 54px rgba(33, 57, 42, 0.1);
-  backdrop-filter: blur(12px);
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 .location-section__eyebrow {
