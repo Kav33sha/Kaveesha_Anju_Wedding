@@ -2571,6 +2571,105 @@ button.button:disabled {
 }
 
 @media (max-width: 719px) {
+  #location {
+    scroll-margin-top: 190px;
+  }
+
+  .location-section,
+  .section.location-section {
+    width: min(100% - 20px, 380px);
+    margin-top: 56px;
+    padding: 0;
+  }
+
+  .location-section__inner {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 28px 0 20px;
+    border-radius: 26px;
+  }
+
+  .location-section__title {
+    font-size: clamp(1.7rem, 9vw, 2.5rem);
+    line-height: 1.02;
+    letter-spacing: 0.08em;
+  }
+
+  .location-section__ornament {
+    margin-bottom: 22px;
+  }
+
+  .location-section__grid {
+    width: 100%;
+    margin: 0 auto;
+    gap: 16px;
+    justify-items: stretch;
+  }
+
+  .location-card,
+  .location-map {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+
+  .location-card {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    justify-items: center;
+    padding: 22px 18px;
+    border-radius: 24px;
+    text-align: center;
+  }
+
+  .location-card__icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .location-card__icon::before {
+    left: 20px;
+    top: 15px;
+  }
+
+  .location-card__icon::after {
+    left: 26px;
+    top: 21px;
+  }
+
+  .location-card__content {
+    text-align: center;
+    width: 100%;
+  }
+
+  .location-card__address {
+    max-width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .location-map {
+    border-radius: 24px;
+  }
+
+  .location-map iframe {
+    min-height: 260px;
+  }
+
+  .location-section__actions {
+    width: 100%;
+    margin: 16px auto 0;
+  }
+
+  .location-section__button {
+    width: 100%;
+    min-height: 52px;
+    letter-spacing: 0.14em;
+    font-size: 0.82rem;
+  }
+
   .gallery__item {
     min-height: 190px;
     padding: 0;
