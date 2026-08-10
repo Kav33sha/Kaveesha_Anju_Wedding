@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wedding Details</title>
+    <meta
+      name="description"
+      content="Wedding invitation details including event schedule, story, gallery, and RSVP."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="details-page">
+    <div class="petal-shower" id="petal-shower" aria-hidden="true"></div>
+
+    <audio id="wedding-music" loop preload="auto">
+      <source src="wedding-music.mp3.mp3" type="audio/mpeg" />
+    </audio>
+
+    <button class="music-toggle" id="music-toggle" type="button" aria-label="Pause wedding music" aria-pressed="true">
+      <span class="music-toggle__icon" aria-hidden="true"></span>
+      <span class="music-toggle__text">Music On</span>
+    </button>
+
+    <nav class="details-nav" aria-label="Wedding invitation sections">
+      <a class="details-nav__brand" href="#top">Anjalika <span>&</span> Kaveesha</a>
+      <div class="details-nav__links">
+        <a href="#events">Details</a>
+        <a href="#location">Location</a>
+        <a href="#gallery">Photos</a>
+        <a href="#rsvp">RSVP</a>
+      </div>
+    </nav>
+
+    <div class="page-shell">
+      <section class="section section--top section--split-hero is-visible" id="top">
+        <div class="split-hero__content split-hero__panel">
+          <p class="section-heading__label">Together with their families</p>
+          <h1 class="split-hero__names">Anjalika <span>&</span> Kaveesha</h1>
+          <p class="split-hero__date">Thursday, October 15, 2026</p>
+        </div>
+        <div class="split-hero__image-wrap split-hero__panel">
+          <img
+            class="split-hero__image"
+            src="couple-invitation.png"
+            alt="Wedding invitation design for Anjalika and Kaveesha"
+          />
+        </div>
+      </section>
+
+      <section class="countdown" aria-labelledby="countdown-title">
+        <div class="countdown__inner">
+          <div class="section-heading section-heading--light">
+            <p class="section-heading__label">Counting Down</p>
+            <h2 id="countdown-title">Until The Big Day</h2>
+          </div>
+          <div class="countdown__grid" id="countdown" aria-live="polite">
+            <div class="countdown__item">
+              <span class="countdown__value" data-unit="days">00</span>
+              <span class="countdown__label">Days</span>
+            </div>
+            <div class="countdown__item">
+              <span class="countdown__value" data-unit="hours">00</span>
+              <span class="countdown__label">Hours</span>
+            </div>
+            <div class="countdown__item">
+              <span class="countdown__value" data-unit="minutes">00</span>
+              <span class="countdown__label">Minutes</span>
+            </div>
+            <div class="countdown__item">
+              <span class="countdown__value" data-unit="seconds">00</span>
+              <span class="countdown__label">Seconds</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <main>
+        <section class="section details-spotlight" id="events">
+          <div class="details-spotlight__inner">
+            <h2 class="details-spotlight__title"><span>The</span> Details</h2>
+            <div class="details-spotlight__ornament" aria-hidden="true">
+              <span></span>
+            </div>
+            <div class="details-spotlight__shape">
+              <div class="details-spotlight__icon" aria-hidden="true"><span></span><span></span></div>
+              <p class="details-spotlight__label">Poruwa Ceremony</p>
+              <p class="details-spotlight__time">9.43 am</p>
+              <div class="details-spotlight__divider" aria-hidden="true"></div>
+              <p class="details-spotlight__venue">Kingsbury Hotel</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section save-date" aria-labelledby="save-date-title">
+          <details class="save-date__card" open>
+            <summary class="save-date__summary">
+              <div class="save-date__summary-main">
+                <span class="save-date__summary-icon" aria-hidden="true"><span></span></span>
+                <div>
+                  <h2 class="save-date__title" id="save-date-title">Save Our Date</h2>
+                  <p class="save-date__subtitle">Add the wedding to your calendar</p>
+                </div>
+              </div>
+              <span class="save-date__caret" aria-hidden="true"></span>
+            </summary>
+            <div class="save-date__links">
+              <a
+                class="save-date__link"
+                href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Anjalika+%26+Kaveesha+Wedding+-+Poruwa+Ceremony&dates=20261015T041300Z%2F20261015T061300Z&details=Poruwa+Ceremony+for+Anjalika+%26+Kaveesha&location=The+Kingsbury+Hotel%2C+Colombo"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span class="save-date__link-text">Google Calendar</span>
+                <span class="save-date__arrow" aria-hidden="true"></span>
+              </a>
+              <a class="save-date__link" href="wedding-invitation.ics" download>
+                <span class="save-date__link-text">Apple Calendar / Outlook</span>
+                <span class="save-date__arrow" aria-hidden="true"></span>
+              </a>
+            </div>
+          </details>
+        </section>
+
+        <section class="section location-section" id="location">
+          <div class="location-section__inner">
+            <p class="location-section__eyebrow">How To Find Us</p>
+            <h2 class="location-section__title"><span>The</span> Location</h2>
+            <div class="location-section__ornament" aria-hidden="true"><span></span></div>
+            <div class="location-section__grid">
+              <article class="location-card">
+                <div class="location-card__icon" aria-hidden="true"></div>
+                <div class="location-card__content">
+                  <p class="location-card__label">Venue</p>
+                  <h3 class="location-card__name">The Kingsbury Hotel</h3>
+                  <p class="location-card__address">48 Janadhipathi Mawatha, Colombo 00100, Sri Lanka</p>
+                </div>
+              </article>
+              <div class="location-map">
+                <iframe
+                  title="The Kingsbury Hotel map"
+                  src="https://www.google.com/maps?q=The+Kingsbury+Hotel+Colombo&z=15&output=embed"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+            </div>
+            <div class="location-section__actions">
+              <a class="location-section__button" href="https://maps.google.com/?q=The+Kingsbury+Hotel+Colombo" target="_blank" rel="noreferrer">Open In Maps</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="section gallery" id="gallery">
+          <div class="section-heading">
+            <p class="section-heading__label">Photo Moments</p>
+            <h2>Memories We Love</h2>
+          </div>
+          <div class="gallery__grid">
+            <figure class="gallery__item gallery__item--tall gallery__item--feature">
+              <img class="gallery__image" src="gallery-2.jpeg" alt="The couple smiling together in front of a flower backdrop" />
+              <figcaption class="gallery__label">Forever Begins</figcaption>
+            </figure>
+            <figure class="gallery__item gallery__item--side gallery__item--soft-smiles">
+              <img class="gallery__image" src="gallery-3.jpeg" alt="The couple holding sparklers and smiling at each other" />
+              <figcaption class="gallery__label">Soft Smiles</figcaption>
+            </figure>
+            <figure class="gallery__item gallery__item--side gallery__item--new-chapter">
+              <img class="gallery__image" src="gallery-4.jpeg" alt="A proposal moment captured beneath glowing lights and flowers" />
+              <figcaption class="gallery__label">A New Chapter</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="section rsvp" id="rsvp">
+          <div class="section-heading">
+            <p class="section-heading__label">RSVP</p>
+            <h2>Will You Be There?</h2>
+          </div>
+          <p class="rsvp__text">
+            Please let us know whether you will attend our wedding. Your response will be sent to
+            our RSVP inbox.
+          </p>
+          <form class="rsvp-form" id="rsvp-form">
+            <div class="rsvp-form__field">
+              <label class="rsvp-form__label" for="guest-name">Your Name</label>
+              <input class="rsvp-form__input" id="guest-name" name="name" type="text" required />
+            </div>
+
+            <fieldset class="rsvp-form__field rsvp-form__field--choice">
+              <legend class="rsvp-form__label">Will you attend?</legend>
+              <div class="rsvp-form__choices">
+                <label class="rsvp-form__choice">
+                  <input type="radio" name="attendance" value="Yes" required />
+                  <span>Yes, I will attend</span>
+                </label>
+                <label class="rsvp-form__choice">
+                  <input type="radio" name="attendance" value="No" />
+                  <span>No, I cannot attend</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="rsvp-form__field">
+              <label class="rsvp-form__label" for="guest-phone">Phone Number</label>
+              <input class="rsvp-form__input" id="guest-phone" name="phone" type="tel" />
+            </div>
+
+            <div class="rsvp-form__field">
+              <label class="rsvp-form__label" for="guest-note">Message</label>
+              <textarea class="rsvp-form__input rsvp-form__textarea" id="guest-note" name="message" rows="4"></textarea>
+            </div>
+
+            <div class="rsvp__actions">
+              <button class="button button--primary" type="submit">Send RSVP</button>
+              <a class="button button--secondary" href="https://maps.google.com/?q=The+Kingsbury+Hotel+Colombo">View Location</a>
+            </div>
+
+            <p class="rsvp-form__status" id="rsvp-status" aria-live="polite"></p>
+          </form>
+        </section>
+
+        <section class="section final-note" id="thank-you">
+          <div class="final-note__card">
+            <div class="final-note__heart" aria-hidden="true"></div>
+            <h2 class="final-note__title">Thank you</h2>
+            <p class="final-note__subtitle">we cannot wait to celebrate with you</p>
+            <p class="final-note__text">See you on the big day.</p>
+            <p class="final-note__text final-note__text--soft">
+              Come back nearer the day, your table will appear right here once the hosts finalise the seating.
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer class="site-footer">
+      <p class="site-footer__text">Created with <span class="site-footer__heart" aria-hidden="true"></span> by Kaveesha</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
