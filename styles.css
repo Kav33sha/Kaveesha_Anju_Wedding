@@ -2580,6 +2580,10 @@ button.button:disabled {
     width: min(100% - 24px, 380px);
     margin-top: 56px;
     padding: 0;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
   }
 
   .location-section__inner {
@@ -2589,6 +2593,10 @@ button.button:disabled {
     align-items: center;
     padding: 28px 0 22px;
     border-radius: 26px;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
   }
 
   .location-section__title {
