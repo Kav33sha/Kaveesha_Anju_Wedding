@@ -17,6 +17,7 @@ const rsvpStatus = document.querySelector("#rsvp-status");
 const petalShower = document.querySelector("#petal-shower");
 const weddingMusic = document.querySelector("#wedding-music");
 const musicToggle = document.querySelector("#music-toggle");
+const butterflyTransition = document.querySelector("#butterfly-transition");
 const guestNameDisplay = document.querySelector("#personalized-guest-name");
 const guestNameInput = document.querySelector("#guest-link-name");
 const guestLinkButton = document.querySelector("#copy-guest-link");
@@ -30,6 +31,7 @@ const EDIT_MODE_VALUE = "1";
 const GUEST_TOKEN_PARAM = "g";
 const LEGACY_GUEST_PARAM = "guest";
 const GUEST_TOKEN_KEY = "KaveeshaAnjuWeddingInvite2026";
+const BUTTERFLY_COUNT = 12;
 
 function updateCountdown() {
   if (!countdownElements.days) {
@@ -156,6 +158,7 @@ function setupInvitationTransition() {
 
     sessionStorage.setItem(MUSIC_AUTOPLAY_KEY, "true");
 
+    launchButterflyTransition();
     document.body.classList.add("invitation-opening");
     invitationTrigger.style.pointerEvents = "none";
 
@@ -163,6 +166,66 @@ function setupInvitationTransition() {
       window.location.href = destination.toString();
     }, 1250);
   });
+}
+
+function createButterfly(index) {
+  const butterfly = document.createElement("span");
+  butterfly.className = "butterfly-transition__butterfly";
+
+  const wingLeft = document.createElement("span");
+  wingLeft.className = "butterfly-transition__wing butterfly-transition__wing--left";
+
+  const wingRight = document.createElement("span");
+  wingRight.className = "butterfly-transition__wing butterfly-transition__wing--right";
+
+  const body = document.createElement("span");
+  body.className = "butterfly-transition__body";
+
+  butterfly.appendChild(wingLeft);
+  butterfly.appendChild(wingRight);
+  butterfly.appendChild(body);
+
+  const left = 18 + Math.random() * 64;
+  const size = 20 + Math.random() * 18;
+  const drift = -140 + Math.random() * 280;
+  const lift = 220 + Math.random() * 190;
+  const delay = index * 55;
+  const duration = 900 + Math.random() * 350;
+  const rotateStart = -28 + Math.random() * 56;
+
+  butterfly.style.left = `${left}%`;
+  butterfly.style.bottom = `${12 + Math.random() * 14}%`;
+  butterfly.style.width = `${size * 1.8}px`;
+  butterfly.style.height = `${size * 1.3}px`;
+  butterfly.style.setProperty("--butterfly-drift", `${drift}px`);
+  butterfly.style.setProperty("--butterfly-lift", `${lift}px`);
+  butterfly.style.setProperty("--butterfly-rotate", `${rotateStart}deg`);
+  butterfly.style.animationDelay = `${delay}ms`;
+  butterfly.style.animationDuration = `${duration}ms`;
+
+  return butterfly;
+}
+
+function launchButterflyTransition() {
+  if (!butterflyTransition || prefersReducedMotion) {
+    return;
+  }
+
+  butterflyTransition.replaceChildren();
+  butterflyTransition.hidden = false;
+  butterflyTransition.classList.remove("is-active");
+  void butterflyTransition.offsetWidth;
+  butterflyTransition.classList.add("is-active");
+
+  for (let index = 0; index < BUTTERFLY_COUNT; index += 1) {
+    butterflyTransition.appendChild(createButterfly(index));
+  }
+
+  window.setTimeout(() => {
+    butterflyTransition.classList.remove("is-active");
+    butterflyTransition.hidden = true;
+    butterflyTransition.replaceChildren();
+  }, 1500);
 }
 
 function setupAdminEditRedirect() {

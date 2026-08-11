@@ -64,6 +64,73 @@ body.invitation-opening {
   overflow: hidden;
 }
 
+.butterfly-transition {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 4;
+}
+
+.butterfly-transition[hidden] {
+  display: none;
+}
+
+.butterfly-transition.is-active::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.18), transparent 42%);
+  animation: butterflyFlash 1.2s ease-out both;
+}
+
+.butterfly-transition__butterfly {
+  position: absolute;
+  display: block;
+  transform: translate3d(0, 0, 0) rotate(var(--butterfly-rotate, 0deg));
+  opacity: 0;
+  animation: butterflyLift 1.1s ease-out forwards;
+}
+
+.butterfly-transition__wing,
+.butterfly-transition__body {
+  position: absolute;
+}
+
+.butterfly-transition__wing {
+  top: 12%;
+  width: 46%;
+  height: 72%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.92), rgba(207, 255, 202, 0.95) 52%, rgba(129, 217, 135, 0.9) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 6px 14px rgba(123, 186, 125, 0.16);
+  animation: butterflyFlap 240ms ease-in-out infinite alternate;
+}
+
+.butterfly-transition__wing--left {
+  left: 2%;
+  border-radius: 85% 35% 78% 45%;
+  transform-origin: 100% 50%;
+}
+
+.butterfly-transition__wing--right {
+  right: 2%;
+  border-radius: 35% 85% 45% 78%;
+  transform-origin: 0 50%;
+  animation-delay: 120ms;
+}
+
+.butterfly-transition__body {
+  left: 50%;
+  top: 8%;
+  width: 10%;
+  height: 74%;
+  border-radius: 999px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(40, 87, 47, 0.95), rgba(20, 52, 27, 0.95));
+}
+
 .page-shell {
   position: relative;
   width: 100%;
@@ -591,6 +658,13 @@ main {
   border-radius: var(--radius-lg);
   animation: heroReveal 1.2s ease-out both;
   z-index: 3;
+}
+
+body.invitation-opening .hero__content,
+body.invitation-opening .hero__ornament,
+body.invitation-opening .hero__veil,
+body.invitation-opening .hero__spark {
+  animation: heroDriftAway 1.15s ease-in both;
 }
 
 .eyebrow,
@@ -2743,6 +2817,58 @@ button.button:disabled {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes butterflyLift {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.7) rotate(var(--butterfly-rotate, 0deg));
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--butterfly-drift), calc(var(--butterfly-lift) * -1), 0) scale(1.12) rotate(calc(var(--butterfly-rotate, 0deg) + 16deg));
+  }
+}
+
+@keyframes butterflyFlap {
+  from {
+    transform: scaleY(1) rotate(0deg);
+  }
+
+  to {
+    transform: scaleY(0.82) rotate(8deg);
+  }
+}
+
+@keyframes butterflyFlash {
+  0% {
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes heroDriftAway {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.98);
   }
 }
 
