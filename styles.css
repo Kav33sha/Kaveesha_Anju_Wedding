@@ -1743,11 +1743,49 @@ body.invitation-opening .hero__spark {
   box-shadow: 0 16px 34px rgba(33, 57, 42, 0.08);
   animation: invitationFadeUp 1.1s ease-out both;
   animation-delay: 0.68s;
+  overflow: hidden;
+}
+
+.invitation-dedication__tool::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(124, 214, 134, 0.8), transparent);
+  opacity: 0.9;
+}
+
+.invitation-dedication__tool::after {
+  content: "";
+  position: absolute;
+  inset: auto 20px 18px auto;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(152, 251, 152, 0.2), transparent 70%);
+  pointer-events: none;
+}
+
+.invitation-dedication__tool-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.invitation-dedication__tool-mark {
+  flex: 0 0 auto;
+  width: 14px;
+  height: 14px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: linear-gradient(135deg, #dfffd8, #7ad78a);
+  box-shadow: 0 6px 14px rgba(122, 215, 138, 0.26);
 }
 
 .invitation-dedication__label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 0;
   font-size: 0.86rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -1761,6 +1799,27 @@ body.invitation-opening .hero__spark {
   line-height: 1.6;
   text-align: left;
   font-size: 0.96rem;
+}
+
+.invitation-dedication__tool-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 16px;
+}
+
+.invitation-dedication__tool-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(138, 194, 141, 0.22);
+  background: rgba(255, 255, 255, 0.78);
+  color: #4f6d59;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
 .invitation-dedication__controls {
@@ -1782,6 +1841,10 @@ body.invitation-opening .hero__spark {
   outline: none;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
   transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease, background-color 220ms ease;
+}
+
+.invitation-dedication__input::placeholder {
+  color: rgba(92, 121, 99, 0.68);
 }
 
 .invitation-dedication__input:focus {
@@ -2313,6 +2376,10 @@ button.button:disabled {
 
   .invitation-dedication__tool {
     padding: 20px;
+  }
+
+  .invitation-dedication__tool-head {
+    align-items: flex-start;
   }
 
   .invitation-dedication__controls {
