@@ -27,6 +27,9 @@ const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)
 const DEFAULT_GUEST_NAME = "Your Name Here";
 const EDIT_MODE_PARAM = "edit";
 const EDIT_MODE_VALUE = "1";
+const GUEST_TOKEN_PARAM = "g";
+const LEGACY_GUEST_PARAM = "guest";
+const GUEST_TOKEN_KEY = "KaveeshaAnjuWeddingInvite2026";
 
 function updateCountdown() {
   if (!countdownElements.days) {
@@ -134,12 +137,17 @@ function setupInvitationTransition() {
     event.preventDefault();
     const nextPage = invitationTrigger.getAttribute("href");
     const searchParams = new URLSearchParams(window.location.search);
-    const guestParam = searchParams.get("guest");
+    const guestToken = searchParams.get(GUEST_TOKEN_PARAM);
+    const legacyGuestParam = searchParams.get(LEGACY_GUEST_PARAM);
     const editParam = searchParams.get(EDIT_MODE_PARAM);
     const destination = new URL(nextPage || "details.html", window.location.href);
 
-    if (guestParam) {
-      destination.searchParams.set("guest", guestParam);
+    if (guestToken) {
+      destination.searchParams.set(GUEST_TOKEN_PARAM, guestToken);
+    }
+
+    if (!guestToken && legacyGuestParam) {
+      destination.searchParams.set(LEGACY_GUEST_PARAM, legacyGuestParam);
     }
 
     if (editParam === EDIT_MODE_VALUE) {
@@ -170,9 +178,15 @@ function setupAdminEditRedirect() {
   const destination = new URL("details.html", window.location.href);
   destination.searchParams.set(EDIT_MODE_PARAM, EDIT_MODE_VALUE);
 
-  const guestParam = params.get("guest");
-  if (guestParam) {
-    destination.searchParams.set("guest", guestParam);
+  const guestToken = params.get(GUEST_TOKEN_PARAM);
+  const legacyGuestParam = params.get(LEGACY_GUEST_PARAM);
+
+  if (guestToken) {
+    destination.searchParams.set(GUEST_TOKEN_PARAM, guestToken);
+  }
+
+  if (!guestToken && legacyGuestParam) {
+    destination.searchParams.set(LEGACY_GUEST_PARAM, legacyGuestParam);
   }
 
   window.location.replace(destination.toString());
@@ -183,6 +197,41 @@ function sanitizeGuestName(value) {
     .replace(/\s+/g, " ")
     .trim()
     .slice(0, 80);
+}
+
+function encodeGuestName(guestName) {
+  const sanitizedName = sanitizeGuestName(guestName);
+  if (!sanitizedName) {
+    return "";
+  }
+
+  const bytes = Array.from(sanitizedName, (character, index) => {
+    const keyCode = GUEST_TOKEN_KEY.charCodeAt(index % GUEST_TOKEN_KEY.length);
+    return character.charCodeAt(0) ^ keyCode;
+  });
+
+  const binary = bytes.map((byte) => String.fromCharCode(byte)).join("");
+  return window.btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+}
+
+function decodeGuestToken(token) {
+  if (!token) {
+    return "";
+  }
+
+  try {
+    const normalizedToken = String(token).replace(/-/g, "+").replace(/_/g, "/");
+    const padding = normalizedToken.length % 4 === 0 ? "" : "=".repeat(4 - (normalizedToken.length % 4));
+    const binary = window.atob(normalizedToken + padding);
+    const decoded = Array.from(binary, (character, index) => {
+      const keyCode = GUEST_TOKEN_KEY.charCodeAt(index % GUEST_TOKEN_KEY.length);
+      return String.fromCharCode(character.charCodeAt(0) ^ keyCode);
+    }).join("");
+
+    return sanitizeGuestName(decoded);
+  } catch (error) {
+    return "";
+  }
 }
 
 function setGuestLinkStatus(message, type) {
@@ -197,11 +246,13 @@ function setGuestLinkStatus(message, type) {
 function buildGuestLink(guestName) {
   const url = new URL("details.html", window.location.href);
   url.searchParams.delete(EDIT_MODE_PARAM);
+  url.searchParams.delete(LEGACY_GUEST_PARAM);
+  url.searchParams.delete(GUEST_TOKEN_PARAM);
 
-  if (guestName) {
-    url.searchParams.set("guest", guestName);
-  } else {
-    url.searchParams.delete("guest");
+  const guestToken = encodeGuestName(guestName);
+
+  if (guestToken) {
+    url.searchParams.set(GUEST_TOKEN_PARAM, guestToken);
   }
 
   return url.toString();
@@ -236,7 +287,8 @@ function setupGuestInvitation() {
   }
 
   const params = new URLSearchParams(window.location.search);
-  const initialName = sanitizeGuestName(params.get("guest"));
+  const initialName =
+    decodeGuestToken(params.get(GUEST_TOKEN_PARAM)) || sanitizeGuestName(params.get(LEGACY_GUEST_PARAM));
   const isEditMode = isEditModeEnabled(params);
 
   updateGuestInvitation(initialName);
