@@ -1582,8 +1582,8 @@ body.invitation-opening .curtain-stage__glow {
   position: relative;
   overflow: hidden;
   display: grid;
-  gap: 34px;
-  padding: clamp(38px, 5vw, 66px) clamp(26px, 4vw, 56px);
+  gap: 30px;
+  padding: clamp(34px, 4.8vw, 58px) clamp(22px, 3.8vw, 48px);
   border-radius: 40px;
   border: 1px solid rgba(194, 237, 199, 0.58);
   background:
@@ -1592,6 +1592,7 @@ body.invitation-opening .curtain-stage__glow {
     radial-gradient(circle at 74% 72%, rgba(232, 255, 229, 0.78), transparent 22%),
     linear-gradient(145deg, rgba(251, 255, 249, 0.95), rgba(239, 249, 236, 0.92));
   box-shadow: 0 24px 60px rgba(33, 57, 42, 0.12);
+  isolation: isolate;
 }
 
 .invitation-dedication__frame::before {
@@ -1617,6 +1618,7 @@ body.invitation-opening .curtain-stage__glow {
   filter: blur(10px);
   opacity: 0.95;
   pointer-events: none;
+  animation: invitationGlow 14s ease-in-out infinite alternate;
 }
 
 .invitation-dedication__ornament {
@@ -1630,35 +1632,41 @@ body.invitation-opening .curtain-stage__glow {
 }
 
 .invitation-dedication__copy {
-  max-width: 980px;
+  max-width: 900px;
   margin: 0 auto;
   text-align: center;
 }
 
 .invitation-dedication__eyebrow {
-  margin: 0 0 22px;
+  margin: 0 0 18px;
   text-transform: uppercase;
-  letter-spacing: 0.28em;
-  font-size: 0.84rem;
+  letter-spacing: 0.32em;
+  font-size: 0.78rem;
   font-weight: 700;
   color: #567a63;
+  animation: invitationFadeUp 0.7s ease-out both;
 }
 
 .invitation-dedication__text {
   margin: 0;
   font-family: "Cormorant Garamond", serif;
-  font-size: clamp(1.35rem, 2.3vw, 2.4rem);
-  line-height: 1.46;
+  font-size: clamp(1.1rem, 2vw, 2rem);
+  line-height: 1.5;
   color: #203b2f;
 }
 
 .invitation-dedication__host-line,
 .invitation-dedication__invite-line {
   display: block;
+  animation: invitationFadeUp 0.9s ease-out both;
 }
 
 .invitation-dedication__host-line {
   white-space: nowrap;
+}
+
+.invitation-dedication__host-line:first-child {
+  animation-delay: 0.1s;
 }
 
 .invitation-dedication__hosts {
@@ -1673,43 +1681,57 @@ body.invitation-opening .curtain-stage__glow {
 
 .invitation-dedication__together {
   display: block;
-  margin: 18px 0 14px;
-  font-size: 0.84rem;
+  margin: 16px 0 12px;
+  font-size: 0.76rem;
   font-family: "Manrope", sans-serif;
   text-transform: uppercase;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.24em;
   color: #5d7d67;
+  animation: invitationFadeUp 0.95s ease-out both;
+  animation-delay: 0.2s;
 }
 
 .invitation-dedication__invite-line {
-  margin-top: 16px;
-  font-size: clamp(1.28rem, 2vw, 2rem);
+  margin-top: 14px;
+  font-size: clamp(1.08rem, 1.8vw, 1.7rem);
+  animation-delay: 0.3s;
 }
 
 .invitation-dedication__guest-wrap {
   display: flex;
   justify-content: center;
-  margin: 28px 0 24px;
+  margin: 24px 0 20px;
+  animation: invitationFadeUp 1s ease-out both;
+  animation-delay: 0.42s;
 }
 
 .invitation-dedication__guest-name {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: min(100%, 650px);
-  min-height: 92px;
-  padding: 18px 36px;
+  width: min(100%, 560px);
+  min-height: 82px;
+  padding: 16px 30px;
   border-radius: 999px;
   border: 1px dashed rgba(160, 193, 164, 0.92);
   background:
     radial-gradient(circle at 82% 50%, rgba(217, 255, 202, 0.9), transparent 20%),
     linear-gradient(135deg, rgba(252, 255, 252, 0.98), rgba(238, 251, 234, 0.95));
   font-family: "Cormorant Garamond", serif;
-  font-size: clamp(1.55rem, 2.7vw, 2.2rem);
+  font-size: clamp(1.35rem, 2.2vw, 1.95rem);
   font-weight: 600;
   color: #8ba592;
   text-align: center;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.72);
+  transition: transform 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
+}
+
+.invitation-dedication__guest-name:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.72),
+    0 14px 28px rgba(125, 181, 125, 0.12);
+  border-color: rgba(132, 188, 138, 0.95);
 }
 
 .invitation-dedication__guest-name.is-empty {
@@ -1717,20 +1739,24 @@ body.invitation-opening .curtain-stage__glow {
 }
 
 .invitation-dedication__text--closing {
-  max-width: 1080px;
+  max-width: 900px;
   margin: 0 auto;
-  font-size: clamp(1.3rem, 2.2vw, 2rem);
+  font-size: clamp(1.05rem, 1.85vw, 1.75rem);
+  animation: invitationFadeUp 1.05s ease-out both;
+  animation-delay: 0.55s;
 }
 
 .invitation-dedication__tool {
   max-width: 860px;
   margin: 0 auto;
-  padding: 28px;
+  padding: 24px;
   border-radius: 28px;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.72), rgba(244, 252, 241, 0.82));
   border: 1px solid rgba(189, 233, 194, 0.72);
   box-shadow: 0 16px 34px rgba(33, 57, 42, 0.08);
+  animation: invitationFadeUp 1.1s ease-out both;
+  animation-delay: 0.68s;
 }
 
 .invitation-dedication__label {
@@ -1746,8 +1772,9 @@ body.invitation-opening .curtain-stage__glow {
 .invitation-dedication__tool-intro {
   margin: 0 0 16px;
   color: #4f6d59;
-  line-height: 1.65;
+  line-height: 1.6;
   text-align: left;
+  font-size: 0.96rem;
 }
 
 .invitation-dedication__controls {
@@ -1767,17 +1794,20 @@ body.invitation-opening .curtain-stage__glow {
   color: var(--text);
   font: inherit;
   outline: none;
-  transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease, background-color 220ms ease;
 }
 
 .invitation-dedication__input:focus {
   border-color: rgba(124, 214, 134, 0.92);
   box-shadow: 0 0 0 4px rgba(152, 251, 152, 0.16);
+  background: rgba(255, 255, 255, 1);
 }
 
 .invitation-dedication__button {
   min-width: 200px;
   min-height: 58px;
+  box-shadow: 0 14px 26px rgba(152, 251, 152, 0.2);
 }
 
 .invitation-dedication__hint,
@@ -1805,6 +1835,30 @@ body.invitation-opening .curtain-stage__glow {
 
 .invitation-dedication__status[data-state="info"] {
   color: var(--green);
+}
+
+@keyframes invitationFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes invitationGlow {
+  from {
+    transform: translate3d(-1%, 0, 0) scale(1);
+    opacity: 0.85;
+  }
+
+  to {
+    transform: translate3d(1%, -1%, 0) scale(1.03);
+    opacity: 1;
+  }
 }
 
 .location-section__eyebrow {
@@ -2267,6 +2321,10 @@ button.button:disabled {
     gap: 24px;
   }
 
+  .invitation-dedication__host-line {
+    white-space: normal;
+  }
+
   .invitation-dedication__tool {
     padding: 20px;
   }
@@ -2283,7 +2341,7 @@ button.button:disabled {
     width: min(100%, 92vw);
     min-height: 76px;
     padding: 16px 20px;
-    font-size: clamp(1.2rem, 5.8vw, 1.7rem);
+    font-size: clamp(1.08rem, 5.2vw, 1.5rem);
   }
 
   .details-nav {
