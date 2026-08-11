@@ -27,7 +27,6 @@ const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)
 const DEFAULT_GUEST_NAME = "Your Name Here";
 const EDIT_MODE_PARAM = "edit";
 const EDIT_MODE_VALUE = "1";
-const EDIT_MODE_STORAGE_KEY = "invitationEditMode";
 
 function updateCountdown() {
   if (!countdownElements.days) {
@@ -186,22 +185,6 @@ function sanitizeGuestName(value) {
     .slice(0, 80);
 }
 
-function readStoredEditMode() {
-  try {
-    return window.localStorage.getItem(EDIT_MODE_STORAGE_KEY);
-  } catch (error) {
-    return null;
-  }
-}
-
-function writeStoredEditMode(value) {
-  try {
-    window.localStorage.setItem(EDIT_MODE_STORAGE_KEY, value);
-  } catch (error) {
-    // Ignore storage failures so edit mode can still work from the URL alone.
-  }
-}
-
 function setGuestLinkStatus(message, type) {
   if (!guestLinkStatus) {
     return;
@@ -234,12 +217,7 @@ function updateGuestInvitation(name) {
 }
 
 function isEditModeEnabled(params) {
-  if (params.get(EDIT_MODE_PARAM) === EDIT_MODE_VALUE) {
-    writeStoredEditMode(EDIT_MODE_VALUE);
-    return true;
-  }
-
-  return readStoredEditMode() === EDIT_MODE_VALUE;
+  return params.get(EDIT_MODE_PARAM) === EDIT_MODE_VALUE;
 }
 
 function setupGuestEditorAccess() {
