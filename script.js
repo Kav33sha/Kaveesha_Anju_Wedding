@@ -17,7 +17,13 @@ const rsvpStatus = document.querySelector("#rsvp-status");
 const petalShower = document.querySelector("#petal-shower");
 const weddingMusic = document.querySelector("#wedding-music");
 const musicToggle = document.querySelector("#music-toggle");
+const guestNameDisplay = document.querySelector("#personalized-guest-name");
+const guestNameInput = document.querySelector("#guest-link-name");
+const guestLinkButton = document.querySelector("#copy-guest-link");
+const guestLinkStatus = document.querySelector("#guest-link-status");
+const guestLinkTool = document.querySelector("#guest-link-tool");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const DEFAULT_GUEST_NAME = "Your Name Here";
 
 function updateCountdown() {
   if (!countdownElements.days) {
@@ -124,14 +130,111 @@ function setupInvitationTransition() {
 
     event.preventDefault();
     const nextPage = invitationTrigger.getAttribute("href");
+    const guestParam = new URLSearchParams(window.location.search).get("guest");
+    const destination = new URL(nextPage || "details.html", window.location.href);
+
+    if (guestParam) {
+      destination.searchParams.set("guest", guestParam);
+    }
+
     sessionStorage.setItem(MUSIC_AUTOPLAY_KEY, "true");
 
     document.body.classList.add("invitation-opening");
     invitationTrigger.style.pointerEvents = "none";
 
     window.setTimeout(() => {
-      window.location.href = nextPage;
+      window.location.href = destination.toString();
     }, 1250);
+  });
+}
+
+function sanitizeGuestName(value) {
+  return String(value || "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 80);
+}
+
+function setGuestLinkStatus(message, type) {
+  if (!guestLinkStatus) {
+    return;
+  }
+
+  guestLinkStatus.textContent = message;
+  guestLinkStatus.dataset.state = type;
+}
+
+function buildGuestLink(guestName) {
+  const url = new URL(window.location.href);
+  url.searchParams.delete("edit");
+
+  if (guestName) {
+    url.searchParams.set("guest", guestName);
+  } else {
+    url.searchParams.delete("guest");
+  }
+
+  return url.toString();
+}
+
+function updateGuestInvitation(name) {
+  if (!guestNameDisplay) {
+    return;
+  }
+
+  guestNameDisplay.textContent = name || DEFAULT_GUEST_NAME;
+  guestNameDisplay.classList.toggle("is-empty", !name);
+}
+
+function setupGuestInvitation() {
+  if (!guestNameDisplay) {
+    return;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const initialName = sanitizeGuestName(params.get("guest"));
+  const isEditMode = params.get("edit") === "1";
+
+  updateGuestInvitation(initialName);
+
+  if (guestLinkTool) {
+    guestLinkTool.hidden = !isEditMode;
+  }
+
+  if (!isEditMode) {
+    return;
+  }
+
+  if (guestNameInput) {
+    guestNameInput.value = initialName;
+
+    guestNameInput.addEventListener("input", () => {
+      const nextName = sanitizeGuestName(guestNameInput.value);
+      updateGuestInvitation(nextName);
+      setGuestLinkStatus(nextName ? "Guest preview updated." : "Guest name cleared.", "info");
+    });
+  }
+
+  if (!guestLinkButton) {
+    return;
+  }
+
+  guestLinkButton.addEventListener("click", async () => {
+    const guestName = sanitizeGuestName(guestNameInput ? guestNameInput.value : "");
+    const nextUrl = buildGuestLink(guestName);
+
+    window.history.replaceState({}, "", nextUrl);
+    updateGuestInvitation(guestName);
+
+    try {
+      await navigator.clipboard.writeText(nextUrl);
+      setGuestLinkStatus(
+        guestName ? `Copied guest link for ${guestName}.` : "Copied general invitation link.",
+        "success"
+      );
+    } catch (error) {
+      setGuestLinkStatus("Link updated in the address bar. Please copy it manually.", "warning");
+    }
   });
 }
 
@@ -335,6 +438,7 @@ updateCountdown();
 setupScrollReveal();
 setupNavSpy();
 setupInvitationTransition();
+setupGuestInvitation();
 setupRsvpForm();
 setupPetalShower();
 setupWeddingMusic();
