@@ -727,6 +727,17 @@ body.invitation-opening .curtain-stage__glow {
   font-size: 1.02rem;
 }
 
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.hero__admin-link[hidden] {
+  display: none;
+}
+
 .hero__date-card {
   margin: 24px auto;
   padding: 16px;

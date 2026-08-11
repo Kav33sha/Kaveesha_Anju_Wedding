@@ -22,6 +22,7 @@ const guestNameInput = document.querySelector("#guest-link-name");
 const guestLinkButton = document.querySelector("#copy-guest-link");
 const guestLinkStatus = document.querySelector("#guest-link-status");
 const guestLinkTool = document.querySelector("#guest-link-tool");
+const guestEditorLink = document.querySelector("#open-guest-editor");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const DEFAULT_GUEST_NAME = "Your Name Here";
 const EDIT_MODE_PARAM = "edit";
@@ -164,6 +165,22 @@ function sanitizeGuestName(value) {
     .slice(0, 80);
 }
 
+function readStoredEditMode() {
+  try {
+    return window.localStorage.getItem(EDIT_MODE_STORAGE_KEY);
+  } catch (error) {
+    return null;
+  }
+}
+
+function writeStoredEditMode(value) {
+  try {
+    window.localStorage.setItem(EDIT_MODE_STORAGE_KEY, value);
+  } catch (error) {
+    // Ignore storage failures so edit mode can still work from the URL alone.
+  }
+}
+
 function setGuestLinkStatus(message, type) {
   if (!guestLinkStatus) {
     return;
@@ -197,11 +214,21 @@ function updateGuestInvitation(name) {
 
 function isEditModeEnabled(params) {
   if (params.get(EDIT_MODE_PARAM) === EDIT_MODE_VALUE) {
-    localStorage.setItem(EDIT_MODE_STORAGE_KEY, EDIT_MODE_VALUE);
+    writeStoredEditMode(EDIT_MODE_VALUE);
     return true;
   }
 
-  return localStorage.getItem(EDIT_MODE_STORAGE_KEY) === EDIT_MODE_VALUE;
+  return readStoredEditMode() === EDIT_MODE_VALUE;
+}
+
+function setupGuestEditorAccess() {
+  const params = new URLSearchParams(window.location.search);
+  const isEditMode = isEditModeEnabled(params);
+
+  if (guestEditorLink) {
+    guestEditorLink.hidden = !isEditMode;
+    guestEditorLink.href = "details.html?edit=1";
+  }
 }
 
 function setupGuestInvitation() {
@@ -456,6 +483,7 @@ updateCountdown();
 setupScrollReveal();
 setupNavSpy();
 setupInvitationTransition();
+setupGuestEditorAccess();
 setupGuestInvitation();
 setupRsvpForm();
 setupPetalShower();
