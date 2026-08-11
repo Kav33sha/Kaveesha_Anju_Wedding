@@ -520,8 +520,8 @@ main {
   position: relative;
   transition: transform 1.2s cubic-bezier(0.7, 0, 0.2, 1);
   background:
-    linear-gradient(180deg, rgba(18, 55, 33, 0.46), rgba(10, 31, 20, 0.58)),
-    radial-gradient(circle at 50% 18%, rgba(236, 255, 235, 0.14), transparent 24%),
+    linear-gradient(180deg, rgba(20, 54, 34, 0.24), rgba(12, 36, 23, 0.34)),
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.16), transparent 26%),
     url("page-background.jpg") center center / cover no-repeat;
 }
 
@@ -530,8 +530,8 @@ main {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06), transparent 14%, transparent 86%, rgba(0, 0, 0, 0.18)),
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.16), transparent 34%);
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent 14%, transparent 86%, rgba(0, 0, 0, 0.08)),
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.22), transparent 36%);
 }
 
 .curtain-stage__panel--left {
