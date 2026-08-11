@@ -520,16 +520,9 @@ main {
   position: relative;
   transition: transform 1.2s cubic-bezier(0.7, 0, 0.2, 1);
   background:
-    linear-gradient(180deg, rgba(21, 60, 35, 0.08), rgba(16, 39, 27, 0.3)),
-    repeating-linear-gradient(
-      90deg,
-      rgba(89, 164, 104, 0.94) 0,
-      rgba(89, 164, 104, 0.94) 18px,
-      rgba(119, 199, 132, 0.95) 18px,
-      rgba(119, 199, 132, 0.95) 36px,
-      rgba(152, 251, 152, 0.96) 36px,
-      rgba(152, 251, 152, 0.96) 54px
-    );
+    linear-gradient(180deg, rgba(18, 55, 33, 0.46), rgba(10, 31, 20, 0.58)),
+    radial-gradient(circle at 50% 18%, rgba(236, 255, 235, 0.14), transparent 24%),
+    url("page-background.jpg") center center / cover no-repeat;
 }
 
 .curtain-stage__panel::before {
@@ -537,18 +530,20 @@ main {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent 14%, transparent 86%, rgba(0, 0, 0, 0.12)),
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.22), transparent 36%);
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06), transparent 14%, transparent 86%, rgba(0, 0, 0, 0.18)),
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.16), transparent 34%);
 }
 
 .curtain-stage__panel--left {
   transform: translateX(0);
   box-shadow: inset -16px 0 30px rgba(9, 25, 17, 0.18);
+  background-position: left center;
 }
 
 .curtain-stage__panel--right {
   transform: translateX(0);
   box-shadow: inset 16px 0 30px rgba(9, 25, 17, 0.18);
+  background-position: right center;
 }
 
 .curtain-stage__tie {
