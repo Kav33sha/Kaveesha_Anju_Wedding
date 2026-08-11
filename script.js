@@ -24,6 +24,9 @@ const guestLinkStatus = document.querySelector("#guest-link-status");
 const guestLinkTool = document.querySelector("#guest-link-tool");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const DEFAULT_GUEST_NAME = "Your Name Here";
+const EDIT_MODE_PARAM = "edit";
+const EDIT_MODE_VALUE = "1";
+const EDIT_MODE_STORAGE_KEY = "invitationEditMode";
 
 function updateCountdown() {
   if (!countdownElements.days) {
@@ -130,11 +133,17 @@ function setupInvitationTransition() {
 
     event.preventDefault();
     const nextPage = invitationTrigger.getAttribute("href");
-    const guestParam = new URLSearchParams(window.location.search).get("guest");
+    const searchParams = new URLSearchParams(window.location.search);
+    const guestParam = searchParams.get("guest");
+    const editParam = searchParams.get(EDIT_MODE_PARAM);
     const destination = new URL(nextPage || "details.html", window.location.href);
 
     if (guestParam) {
       destination.searchParams.set("guest", guestParam);
+    }
+
+    if (editParam === EDIT_MODE_VALUE) {
+      destination.searchParams.set(EDIT_MODE_PARAM, EDIT_MODE_VALUE);
     }
 
     sessionStorage.setItem(MUSIC_AUTOPLAY_KEY, "true");
@@ -165,8 +174,8 @@ function setGuestLinkStatus(message, type) {
 }
 
 function buildGuestLink(guestName) {
-  const url = new URL(window.location.href);
-  url.searchParams.delete("edit");
+  const url = new URL("details.html", window.location.href);
+  url.searchParams.delete(EDIT_MODE_PARAM);
 
   if (guestName) {
     url.searchParams.set("guest", guestName);
@@ -186,6 +195,15 @@ function updateGuestInvitation(name) {
   guestNameDisplay.classList.toggle("is-empty", !name);
 }
 
+function isEditModeEnabled(params) {
+  if (params.get(EDIT_MODE_PARAM) === EDIT_MODE_VALUE) {
+    localStorage.setItem(EDIT_MODE_STORAGE_KEY, EDIT_MODE_VALUE);
+    return true;
+  }
+
+  return localStorage.getItem(EDIT_MODE_STORAGE_KEY) === EDIT_MODE_VALUE;
+}
+
 function setupGuestInvitation() {
   if (!guestNameDisplay) {
     return;
@@ -193,7 +211,7 @@ function setupGuestInvitation() {
 
   const params = new URLSearchParams(window.location.search);
   const initialName = sanitizeGuestName(params.get("guest"));
-  const isEditMode = params.get("edit") === "1";
+  const isEditMode = isEditModeEnabled(params);
 
   updateGuestInvitation(initialName);
 
