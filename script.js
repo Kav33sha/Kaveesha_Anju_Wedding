@@ -158,6 +158,27 @@ function setupInvitationTransition() {
   });
 }
 
+function setupAdminEditRedirect() {
+  if (!invitationTrigger) {
+    return;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  if (params.get(EDIT_MODE_PARAM) !== EDIT_MODE_VALUE) {
+    return;
+  }
+
+  const destination = new URL("details.html", window.location.href);
+  destination.searchParams.set(EDIT_MODE_PARAM, EDIT_MODE_VALUE);
+
+  const guestParam = params.get("guest");
+  if (guestParam) {
+    destination.searchParams.set("guest", guestParam);
+  }
+
+  window.location.replace(destination.toString());
+}
+
 function sanitizeGuestName(value) {
   return String(value || "")
     .replace(/\s+/g, " ")
@@ -482,6 +503,7 @@ function setupWeddingMusic() {
 updateCountdown();
 setupScrollReveal();
 setupNavSpy();
+setupAdminEditRedirect();
 setupInvitationTransition();
 setupGuestEditorAccess();
 setupGuestInvitation();

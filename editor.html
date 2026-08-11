@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guest Link Editor</title>
+    <meta http-equiv="refresh" content="0; url=details.html?edit=1" />
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: Arial, sans-serif;
+        background: #eefbea;
+        color: #173224;
+      }
+
+      .editor-redirect {
+        padding: 24px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: 0 18px 40px rgba(33, 57, 42, 0.12);
+        text-align: center;
+      }
+
+      a {
+        color: #2f6b41;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="editor-redirect">
+      <p>Opening the guest link editor...</p>
+      <p><a href="details.html?edit=1">Continue to the editor</a></p>
+    </div>
+    <script>
+      window.location.replace("details.html?edit=1");
+    </script>
+  </body>
+</html>
