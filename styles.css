@@ -33,6 +33,11 @@ body {
     linear-gradient(180deg, #f3fff0 0%, #dff8dd 42%, #eefbea 100%);
 }
 
+body.landing-page {
+  min-height: 100svh;
+  overflow: hidden;
+}
+
 .details-page {
   background:
     linear-gradient(rgba(26, 63, 38, 0.34), rgba(18, 42, 26, 0.46)),
@@ -142,6 +147,7 @@ body.invitation-opening {
   min-height: 100svh;
   display: grid;
   padding-bottom: 0;
+  overflow: hidden;
 }
 
 main {
