@@ -492,104 +492,21 @@ main {
   margin-bottom: 0;
   border-radius: 0;
   border-inline: 0;
-  background: linear-gradient(180deg, #8fe790 0%, #295c36 100%);
+  background: linear-gradient(180deg, #7ecb82 0%, #214e31 100%);
 }
 
 .hero__image-layer {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at center, rgba(245, 255, 245, 0.18), transparent 20%),
-    radial-gradient(circle at 50% 60%, rgba(152, 251, 152, 0.26), transparent 18%),
-    radial-gradient(circle at 18% 24%, rgba(255, 255, 255, 0.12), transparent 14%),
-    radial-gradient(circle at 82% 24%, rgba(255, 255, 255, 0.1), transparent 14%),
-    linear-gradient(180deg, rgba(25, 63, 36, 0.28), rgba(16, 37, 26, 0.5));
-  z-index: 0;
-  transform: scale(1.02);
-}
-
-.curtain-stage {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  z-index: 1;
-}
-
-.curtain-stage__panel {
-  position: relative;
-  transition: transform 1.2s cubic-bezier(0.7, 0, 0.2, 1);
-  background:
-    linear-gradient(180deg, rgba(20, 54, 34, 0.24), rgba(12, 36, 23, 0.34)),
-    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.16), transparent 26%),
+    linear-gradient(180deg, rgba(15, 48, 29, 0.24), rgba(10, 28, 18, 0.42)),
+    radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.24), transparent 14%),
+    radial-gradient(circle at 82% 22%, rgba(255, 255, 255, 0.18), transparent 13%),
+    radial-gradient(circle at 52% 62%, rgba(203, 255, 198, 0.18), transparent 20%),
     url("page-background.jpg") center center / cover no-repeat;
-}
-
-.curtain-stage__panel::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent 14%, transparent 86%, rgba(0, 0, 0, 0.08)),
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.22), transparent 36%);
-}
-
-.curtain-stage__panel--left {
-  transform: translateX(0);
-  box-shadow: inset -16px 0 30px rgba(9, 25, 17, 0.18);
-  background-position: left center;
-}
-
-.curtain-stage__panel--right {
-  transform: translateX(0);
-  box-shadow: inset 16px 0 30px rgba(9, 25, 17, 0.18);
-  background-position: right center;
-}
-
-.curtain-stage__tie {
-  position: absolute;
-  top: 50%;
-  width: 26px;
-  height: 78px;
-  margin-top: -39px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #efffec 0%, #98fb98 100%);
-  box-shadow: 0 10px 18px rgba(10, 24, 16, 0.18);
-  opacity: 0;
-  transition: opacity 0.3s ease 0.35s;
-  z-index: 2;
-}
-
-.curtain-stage__tie--left {
-  left: calc(50% - 18px);
-}
-
-.curtain-stage__tie--right {
-  right: calc(50% - 18px);
-}
-
-.curtain-stage__glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(152, 251, 152, 0.3), transparent 24%);
-  opacity: 0.1;
-  transition: opacity 0.8s ease;
-}
-
-body.invitation-opening .curtain-stage__panel--left {
-  transform: translateX(-104%);
-}
-
-body.invitation-opening .curtain-stage__panel--right {
-  transform: translateX(104%);
-}
-
-body.invitation-opening .curtain-stage__tie {
-  opacity: 1;
-}
-
-body.invitation-opening .curtain-stage__glow {
-  opacity: 0.42;
+  z-index: 0;
+  transform: scale(1.03);
+  filter: saturate(1.02);
 }
 
 .hero__ornament {
