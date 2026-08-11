@@ -1556,7 +1556,7 @@ body.invitation-opening .hero__spark {
 
 .invitation-dedication {
   width: min(100% - 24px, 1400px);
-  margin: 34px auto;
+  margin: 18px auto 34px;
   padding: 0;
   background: transparent;
   border: 0;
