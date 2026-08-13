@@ -4,6 +4,11 @@ const PETAL_COUNT = 8;
 const PETAL_INTERVAL_MS = 900;
 const MUSIC_AUTOPLAY_KEY = "weddingMusicAutoplay";
 const MUSIC_STOPPED_KEY = "weddingMusicStopped";
+const FIREWORK_PALETTE = [
+  { hue: 0, core: "#ffd35a", glow: "#ff9f1c" },
+  { hue: 10, core: "#ffdca8", glow: "#ffb347" },
+  { hue: 20, core: "#ffe8bf", glow: "#ff8f3f" },
+];
 const animatedSections = document.querySelectorAll(".section");
 const navLinks = document.querySelectorAll(".details-nav__links a, .details-nav__brand");
 const countdownElements = {
@@ -174,26 +179,39 @@ function createFireworkBurst(index) {
   burst.className = "fireworks-transition__burst";
   burst.setAttribute("aria-hidden", "true");
 
-  const sparkleCount = 14;
-  const left = 12 + Math.random() * 76;
-  const top = 18 + Math.random() * 48;
-  const delay = index * 140;
-  const size = 110 + Math.random() * 90;
-  const hue = Math.round(24 + Math.random() * 110);
+  const sparkleCount = 22 + Math.floor(Math.random() * 8);
+  const left = 14 + Math.random() * 72;
+  const top = 22 + Math.random() * 44;
+  const delay = index * 120;
+  const size = 150 + Math.random() * 120;
+  const palette = FIREWORK_PALETTE[index % FIREWORK_PALETTE.length];
+  const layerScale = 0.58 + Math.random() * 0.14;
+  const secondaryScale = 0.32 + Math.random() * 0.1;
 
   burst.style.left = `${left}%`;
   burst.style.top = `${top}%`;
   burst.style.width = `${size}px`;
   burst.style.height = `${size}px`;
   burst.style.animationDelay = `${delay}ms`;
-  burst.style.setProperty("--firework-hue", `${hue}deg`);
+  burst.style.setProperty("--firework-hue", `${palette.hue}deg`);
+  burst.style.setProperty("--firework-core", palette.core);
+  burst.style.setProperty("--firework-glow", palette.glow);
+  burst.style.setProperty("--firework-layer-scale", String(layerScale));
+  burst.style.setProperty("--firework-secondary-scale", String(secondaryScale));
+  burst.style.setProperty("--firework-tilt", `${-10 + Math.random() * 20}deg`);
 
   for (let sparkleIndex = 0; sparkleIndex < sparkleCount; sparkleIndex += 1) {
     const sparkle = document.createElement("span");
     sparkle.className = "fireworks-transition__spark";
-    sparkle.style.setProperty("--spark-angle", `${(360 / sparkleCount) * sparkleIndex}deg`);
-    sparkle.style.setProperty("--spark-distance", `${34 + Math.random() * 30}px`);
-    sparkle.style.setProperty("--spark-delay", `${120 + Math.random() * 220}ms`);
+    const distance = 56 + Math.random() * 64;
+    const thickness = 2 + Math.random() * 2.4;
+    const angleOffset = (-4 + Math.random() * 8).toFixed(2);
+    sparkle.style.setProperty("--spark-angle", `${(360 / sparkleCount) * sparkleIndex + Number(angleOffset)}deg`);
+    sparkle.style.setProperty("--spark-distance", `${distance}px`);
+    sparkle.style.setProperty("--spark-thickness", `${thickness}px`);
+    sparkle.style.setProperty("--spark-delay", `${90 + Math.random() * 200}ms`);
+    sparkle.style.setProperty("--spark-duration", `${820 + Math.random() * 240}ms`);
+    sparkle.style.setProperty("--spark-tip-size", `${3 + Math.random() * 3}px`);
     burst.appendChild(sparkle);
   }
 
