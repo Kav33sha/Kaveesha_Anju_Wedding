@@ -179,14 +179,21 @@ function createFireworkBurst(index) {
   burst.className = "fireworks-transition__burst";
   burst.setAttribute("aria-hidden", "true");
 
-  const sparkleCount = 22 + Math.floor(Math.random() * 8);
+  const rocket = document.createElement("span");
+  rocket.className = "fireworks-transition__rocket";
+
+  const core = document.createElement("span");
+  core.className = "fireworks-transition__core";
+
+  const sparkleCount = 14 + Math.floor(Math.random() * 8);
+  const emberCount = 10 + Math.floor(Math.random() * 6);
   const left = 14 + Math.random() * 72;
   const top = 22 + Math.random() * 44;
   const delay = index * 120;
   const size = 150 + Math.random() * 120;
   const palette = FIREWORK_PALETTE[index % FIREWORK_PALETTE.length];
-  const layerScale = 0.58 + Math.random() * 0.14;
-  const secondaryScale = 0.32 + Math.random() * 0.1;
+  const rise = 90 + Math.random() * 120;
+  const drift = -30 + Math.random() * 60;
 
   burst.style.left = `${left}%`;
   burst.style.top = `${top}%`;
@@ -196,23 +203,39 @@ function createFireworkBurst(index) {
   burst.style.setProperty("--firework-hue", `${palette.hue}deg`);
   burst.style.setProperty("--firework-core", palette.core);
   burst.style.setProperty("--firework-glow", palette.glow);
-  burst.style.setProperty("--firework-layer-scale", String(layerScale));
-  burst.style.setProperty("--firework-secondary-scale", String(secondaryScale));
-  burst.style.setProperty("--firework-tilt", `${-10 + Math.random() * 20}deg`);
+  burst.style.setProperty("--rocket-rise", `${rise}px`);
+  burst.style.setProperty("--rocket-drift", `${drift}px`);
+
+  burst.appendChild(rocket);
+  burst.appendChild(core);
 
   for (let sparkleIndex = 0; sparkleIndex < sparkleCount; sparkleIndex += 1) {
     const sparkle = document.createElement("span");
     sparkle.className = "fireworks-transition__spark";
-    const distance = 56 + Math.random() * 64;
-    const thickness = 2 + Math.random() * 2.4;
-    const angleOffset = (-4 + Math.random() * 8).toFixed(2);
-    sparkle.style.setProperty("--spark-angle", `${(360 / sparkleCount) * sparkleIndex + Number(angleOffset)}deg`);
-    sparkle.style.setProperty("--spark-distance", `${distance}px`);
-    sparkle.style.setProperty("--spark-thickness", `${thickness}px`);
-    sparkle.style.setProperty("--spark-delay", `${90 + Math.random() * 200}ms`);
-    sparkle.style.setProperty("--spark-duration", `${820 + Math.random() * 240}ms`);
-    sparkle.style.setProperty("--spark-tip-size", `${3 + Math.random() * 3}px`);
+    const angle = -155 + Math.random() * 130;
+    const distance = 50 + Math.random() * 92;
+    const x = Math.cos((angle * Math.PI) / 180) * distance;
+    const y = Math.sin((angle * Math.PI) / 180) * distance;
+    sparkle.style.setProperty("--spark-x", `${x.toFixed(2)}px`);
+    sparkle.style.setProperty("--spark-y", `${y.toFixed(2)}px`);
+    sparkle.style.setProperty("--spark-rotate", `${-28 + Math.random() * 56}deg`);
+    sparkle.style.setProperty("--spark-thickness", `${1.8 + Math.random() * 2}px`);
+    sparkle.style.setProperty("--spark-length", `${42 + Math.random() * 54}px`);
+    sparkle.style.setProperty("--spark-delay", `${440 + Math.random() * 130}ms`);
+    sparkle.style.setProperty("--spark-duration", `${660 + Math.random() * 180}ms`);
     burst.appendChild(sparkle);
+  }
+
+  for (let emberIndex = 0; emberIndex < emberCount; emberIndex += 1) {
+    const ember = document.createElement("span");
+    ember.className = "fireworks-transition__ember";
+    ember.style.setProperty("--ember-x", `${-56 + Math.random() * 112}px`);
+    ember.style.setProperty("--ember-y", `${-72 - Math.random() * 54}px`);
+    ember.style.setProperty("--ember-fall", `${44 + Math.random() * 42}px`);
+    ember.style.setProperty("--ember-delay", `${520 + Math.random() * 180}ms`);
+    ember.style.setProperty("--ember-duration", `${780 + Math.random() * 240}ms`);
+    ember.style.setProperty("--ember-size", `${2 + Math.random() * 3}px`);
+    burst.appendChild(ember);
   }
 
   return burst;

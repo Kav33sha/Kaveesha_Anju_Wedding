@@ -92,90 +92,136 @@ body.invitation-opening {
 }
 
 .fireworks-transition__burst,
-.fireworks-transition__spark {
+.fireworks-transition__rocket,
+.fireworks-transition__core,
+.fireworks-transition__spark,
+.fireworks-transition__ember {
   position: absolute;
 }
 
 .fireworks-transition__burst {
-  transform: translate(-50%, -50%) scale(0.2);
+  transform: translate(-50%, -50%);
   opacity: 0;
   filter: hue-rotate(var(--firework-hue, 0deg)) saturate(120%);
-  animation: fireworkBurst 1.15s ease-out forwards;
+  animation: fireworkShell 1.2s ease-out forwards;
 }
 
-.fireworks-transition__burst::before {
-  content: "";
-  position: absolute;
-  inset: calc(38% * var(--firework-secondary-scale, 0.38));
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 252, 238, 1), var(--firework-core, #ffd35a) 32%, rgba(255, 223, 138, 0.14) 74%, rgba(255, 223, 138, 0) 100%);
-  box-shadow:
-    0 0 22px color-mix(in srgb, var(--firework-core, #ffd35a) 70%, white 30%),
-    0 0 52px color-mix(in srgb, var(--firework-glow, #ff9f1c) 50%, transparent 50%);
+.fireworks-transition__rocket {
+  left: 50%;
+  bottom: calc(var(--rocket-rise, 110px) * -1);
+  width: 3px;
+  height: var(--rocket-rise, 110px);
+  transform: translateX(-50%);
+  opacity: 0;
+  animation: fireworkRocket 0.5s ease-out forwards;
 }
 
-.fireworks-transition__burst::after {
+.fireworks-transition__rocket::before {
   content: "";
   position: absolute;
-  inset: calc(50% - (var(--firework-layer-scale, 0.62) * 50%));
-  border-radius: 50%;
-  border: 1px solid rgba(255, 232, 196, 0.18);
+  left: 50%;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateX(-50%);
   background:
-    radial-gradient(circle, rgba(255, 255, 255, 0.32), rgba(255, 214, 102, 0.08) 52%, rgba(255, 214, 102, 0) 100%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 247, 226, 0.95) 28%, color-mix(in srgb, var(--firework-glow, #ff9f1c) 78%, white 22%) 74%, rgba(255, 138, 30, 0.08));
+  box-shadow: 0 0 10px color-mix(in srgb, var(--firework-core, #ffd35a) 55%, white 45%);
+}
+
+.fireworks-transition__rocket::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 1), var(--firework-core, #ffd35a) 56%, rgba(255, 223, 138, 0) 100%);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--firework-glow, #ff9f1c) 65%, transparent 35%);
+}
+
+.fireworks-transition__core {
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0.2);
+  opacity: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 1), var(--firework-core, #ffd35a) 42%, rgba(255, 223, 138, 0) 100%);
   box-shadow:
-    0 0 28px rgba(255, 207, 124, 0.24),
-    inset 0 0 24px rgba(255, 245, 214, 0.08);
+    0 0 18px color-mix(in srgb, var(--firework-core, #ffd35a) 68%, white 32%),
+    0 0 44px color-mix(in srgb, var(--firework-glow, #ff9f1c) 48%, transparent 52%);
+  animation: fireworkCore 0.42s ease-out forwards;
+  animation-delay: 0.46s;
 }
 
 .fireworks-transition__spark {
   left: 50%;
   top: 50%;
   width: var(--spark-thickness, 3px);
-  height: 48%;
+  height: var(--spark-length, 64px);
   margin-left: calc(var(--spark-thickness, 3px) * -0.5);
-  transform-origin: center 100%;
-  transform: rotate(var(--spark-angle, 0deg)) translateY(0) rotate(var(--firework-tilt, 0deg));
+  transform-origin: center top;
+  transform: translate(-50%, -50%) rotate(var(--spark-rotate, 0deg));
+  opacity: 0;
 }
 
 .fireworks-transition__spark::before {
   content: "";
   position: absolute;
   left: 50%;
-  bottom: 0;
+  top: 0;
   width: 100%;
-  height: var(--spark-distance, 48px);
+  height: 100%;
   border-radius: 999px;
   transform: translateX(-50%);
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 250, 232, 0.95) 22%,
-    color-mix(in srgb, var(--firework-core, #ffd35a) 82%, white 18%) 54%,
-    color-mix(in srgb, var(--firework-glow, #ff9f1c) 70%, transparent 30%) 82%,
-    rgba(255, 170, 47, 0.04) 100%
+    rgba(255, 255, 255, 0.98) 0%,
+    color-mix(in srgb, var(--firework-core, #ffd35a) 86%, white 14%) 22%,
+    color-mix(in srgb, var(--firework-glow, #ff9f1c) 72%, transparent 28%) 62%,
+    rgba(255, 170, 47, 0.03) 100%
   );
   box-shadow:
     0 0 10px color-mix(in srgb, var(--firework-core, #ffd35a) 52%, white 48%),
     0 0 22px color-mix(in srgb, var(--firework-glow, #ff9f1c) 35%, transparent 65%);
-  opacity: 0;
-  animation: fireworkSpark var(--spark-duration, 1s) ease-out forwards;
-  animation-delay: var(--spark-delay, 0ms);
+  transform-origin: center top;
 }
 
 .fireworks-transition__spark::after {
   content: "";
   position: absolute;
   left: 50%;
-  top: calc(100% - var(--spark-distance, 48px));
-  width: var(--spark-tip-size, 4px);
-  height: var(--spark-tip-size, 4px);
+  top: 0;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   background: radial-gradient(circle, rgba(255, 255, 255, 0.98), var(--firework-core, #ffd35a) 55%, rgba(255, 223, 138, 0) 100%);
   box-shadow: 0 0 12px color-mix(in srgb, var(--firework-glow, #ff9f1c) 55%, transparent 45%);
-  opacity: 0;
-  animation: fireworkTip var(--spark-duration, 1s) ease-out forwards;
+}
+
+.fireworks-transition__spark {
+  animation: fireworkSpark var(--spark-duration, 0.8s) ease-out forwards;
   animation-delay: var(--spark-delay, 0ms);
+}
+
+.fireworks-transition__ember {
+  left: 50%;
+  top: 50%;
+  width: var(--ember-size, 3px);
+  height: var(--ember-size, 3px);
+  margin-left: calc(var(--ember-size, 3px) * -0.5);
+  margin-top: calc(var(--ember-size, 3px) * -0.5);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.96), var(--firework-core, #ffd35a) 60%, rgba(255, 223, 138, 0) 100%);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--firework-glow, #ff9f1c) 48%, transparent 52%);
+  opacity: 0;
+  animation: fireworkEmber var(--ember-duration, 0.9s) ease-out forwards;
+  animation-delay: var(--ember-delay, 0ms);
 }
 
 .page-shell {
@@ -2935,52 +2981,86 @@ button.button:disabled {
   }
 }
 
-@keyframes fireworkBurst {
+@keyframes fireworkShell {
   0% {
     opacity: 0;
-    transform: translate(-50%, -44%) scale(0.12);
+    transform: translate(-50%, calc(-50% + var(--rocket-rise, 110px))) scale(0.98);
   }
 
-  24% {
+  42% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(0.9);
+    transform: translate(-50%, -50%) scale(1);
   }
 
   100% {
     opacity: 0;
-    transform: translate(-50%, -54%) scale(1.12);
+    transform: translate(calc(-50% + var(--rocket-drift, 0px)), calc(-50% - 8px)) scale(1.02);
+  }
+}
+
+@keyframes fireworkRocket {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(18px);
+  }
+
+  12% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(calc(-50% + var(--rocket-drift, 0px))) translateY(calc(var(--rocket-rise, 110px) * -1));
+  }
+}
+
+@keyframes fireworkCore {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.12);
+  }
+
+  40% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.8);
   }
 }
 
 @keyframes fireworkSpark {
   0% {
     opacity: 0;
-    transform: translateX(-50%) scaleY(0.12);
+    transform: translate(-50%, -50%) translate(0, 0) rotate(var(--spark-rotate, 0deg)) scaleY(0.2);
   }
 
-  20% {
+  18% {
     opacity: 1;
   }
 
   100% {
     opacity: 0;
-    transform: translateX(-50%) scaleY(1.12);
+    transform: translate(-50%, -50%) translate(var(--spark-x, 0px), var(--spark-y, -60px)) rotate(var(--spark-rotate, 0deg))
+      scaleY(1.08);
   }
 }
 
-@keyframes fireworkTip {
+@keyframes fireworkEmber {
   0% {
     opacity: 0;
-    transform: translate(-50%, -20%) scale(0.4);
+    transform: translate(-50%, -50%) translate(0, 0) scale(0.4);
   }
 
-  20% {
+  24% {
     opacity: 1;
   }
 
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(1.5);
+    transform: translate(-50%, -50%) translate(var(--ember-x, 0px), calc(var(--ember-y, -80px) + var(--ember-fall, 56px))) scale(0.8);
   }
 }
 
