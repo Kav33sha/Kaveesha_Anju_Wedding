@@ -3,6 +3,7 @@ const FORMSPREE_ENDPOINT = "https://formspree.io/f/xqpzknvn";
 const PETAL_COUNT = 8;
 const PETAL_INTERVAL_MS = 900;
 const MUSIC_AUTOPLAY_KEY = "weddingMusicAutoplay";
+const MUSIC_STOPPED_KEY = "weddingMusicStopped";
 const animatedSections = document.querySelectorAll(".section");
 const navLinks = document.querySelectorAll(".details-nav__links a, .details-nav__brand");
 const countdownElements = {
@@ -171,35 +172,67 @@ function setupInvitationTransition() {
 function createButterfly(index) {
   const butterfly = document.createElement("span");
   butterfly.className = "butterfly-transition__butterfly";
+  butterfly.setAttribute("aria-hidden", "true");
 
-  const wingLeft = document.createElement("span");
-  wingLeft.className = "butterfly-transition__wing butterfly-transition__wing--left";
+  const wingGroupLeft = document.createElement("span");
+  wingGroupLeft.className = "butterfly-transition__wing-group butterfly-transition__wing-group--left";
 
-  const wingRight = document.createElement("span");
-  wingRight.className = "butterfly-transition__wing butterfly-transition__wing--right";
+  const wingGroupRight = document.createElement("span");
+  wingGroupRight.className = "butterfly-transition__wing-group butterfly-transition__wing-group--right";
+
+  const wingTopLeft = document.createElement("span");
+  wingTopLeft.className = "butterfly-transition__wing butterfly-transition__wing--top butterfly-transition__wing--left";
+
+  const wingBottomLeft = document.createElement("span");
+  wingBottomLeft.className = "butterfly-transition__wing butterfly-transition__wing--bottom butterfly-transition__wing--left";
+
+  const wingTopRight = document.createElement("span");
+  wingTopRight.className = "butterfly-transition__wing butterfly-transition__wing--top butterfly-transition__wing--right";
+
+  const wingBottomRight = document.createElement("span");
+  wingBottomRight.className = "butterfly-transition__wing butterfly-transition__wing--bottom butterfly-transition__wing--right";
 
   const body = document.createElement("span");
   body.className = "butterfly-transition__body";
 
-  butterfly.appendChild(wingLeft);
-  butterfly.appendChild(wingRight);
+  const antennaLeft = document.createElement("span");
+  antennaLeft.className = "butterfly-transition__antenna butterfly-transition__antenna--left";
+
+  const antennaRight = document.createElement("span");
+  antennaRight.className = "butterfly-transition__antenna butterfly-transition__antenna--right";
+
+  wingGroupLeft.appendChild(wingTopLeft);
+  wingGroupLeft.appendChild(wingBottomLeft);
+  wingGroupRight.appendChild(wingTopRight);
+  wingGroupRight.appendChild(wingBottomRight);
+
+  butterfly.appendChild(wingGroupLeft);
+  butterfly.appendChild(wingGroupRight);
   butterfly.appendChild(body);
+  butterfly.appendChild(antennaLeft);
+  butterfly.appendChild(antennaRight);
 
   const left = 18 + Math.random() * 64;
-  const size = 20 + Math.random() * 18;
+  const size = 24 + Math.random() * 18;
   const drift = -140 + Math.random() * 280;
   const lift = 220 + Math.random() * 190;
   const delay = index * 55;
-  const duration = 900 + Math.random() * 350;
-  const rotateStart = -28 + Math.random() * 56;
+  const duration = 1000 + Math.random() * 420;
+  const rotateStart = -20 + Math.random() * 40;
+  const sway = -28 + Math.random() * 56;
+  const hue = 8 + Math.random() * 18;
+  const saturation = 8 + Math.random() * 15;
 
   butterfly.style.left = `${left}%`;
   butterfly.style.bottom = `${12 + Math.random() * 14}%`;
-  butterfly.style.width = `${size * 1.8}px`;
-  butterfly.style.height = `${size * 1.3}px`;
+  butterfly.style.width = `${size * 2}px`;
+  butterfly.style.height = `${size * 1.9}px`;
   butterfly.style.setProperty("--butterfly-drift", `${drift}px`);
   butterfly.style.setProperty("--butterfly-lift", `${lift}px`);
   butterfly.style.setProperty("--butterfly-rotate", `${rotateStart}deg`);
+  butterfly.style.setProperty("--butterfly-sway", `${sway}px`);
+  butterfly.style.setProperty("--butterfly-hue", `${hue}deg`);
+  butterfly.style.setProperty("--butterfly-saturation", `${100 + saturation}%`);
   butterfly.style.animationDelay = `${delay}ms`;
   butterfly.style.animationDuration = `${duration}ms`;
 
@@ -524,6 +557,30 @@ function updateMusicToggle(isPlaying, isReady = true) {
   }
 }
 
+function setMusicStoppedPreference(isStopped) {
+  try {
+    if (isStopped) {
+      sessionStorage.setItem(MUSIC_STOPPED_KEY, "true");
+      return;
+    }
+
+    sessionStorage.removeItem(MUSIC_STOPPED_KEY);
+  } catch (error) {
+    // Ignore storage issues and continue with in-memory playback only.
+  }
+}
+
+function shouldAutoplayMusic() {
+  try {
+    return (
+      sessionStorage.getItem(MUSIC_AUTOPLAY_KEY) === "true" &&
+      sessionStorage.getItem(MUSIC_STOPPED_KEY) !== "true"
+    );
+  } catch (error) {
+    return false;
+  }
+}
+
 async function tryPlayMusic() {
   if (!weddingMusic) {
     updateMusicToggle(false, false);
@@ -532,6 +589,7 @@ async function tryPlayMusic() {
 
   try {
     await weddingMusic.play();
+    setMusicStoppedPreference(false);
     updateMusicToggle(true, true);
     return true;
   } catch (error) {
@@ -568,16 +626,22 @@ function setupWeddingMusic() {
     }
 
     if (weddingMusic.paused) {
+      setMusicStoppedPreference(false);
       await tryPlayMusic();
       return;
     }
 
+    setMusicStoppedPreference(true);
     weddingMusic.pause();
   });
 
-  const shouldAutoplay = sessionStorage.getItem(MUSIC_AUTOPLAY_KEY) === "true";
+  const shouldAutoplay = shouldAutoplayMusic();
   if (shouldAutoplay) {
-    sessionStorage.removeItem(MUSIC_AUTOPLAY_KEY);
+    try {
+      sessionStorage.removeItem(MUSIC_AUTOPLAY_KEY);
+    } catch (error) {
+      // Ignore storage issues and attempt playback anyway.
+    }
     void tryPlayMusic();
 
     const resumeOnGesture = async () => {
