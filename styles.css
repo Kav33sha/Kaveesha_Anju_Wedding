@@ -69,7 +69,7 @@ body.invitation-opening {
   overflow: hidden;
 }
 
-.butterfly-transition {
+.fireworks-transition {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -77,167 +77,63 @@ body.invitation-opening {
   z-index: 4;
 }
 
-.butterfly-transition[hidden] {
+.fireworks-transition[hidden] {
   display: none;
 }
 
-.butterfly-transition.is-active::before {
+.fireworks-transition.is-active::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.18), transparent 42%);
-  animation: butterflyFlash 1.2s ease-out both;
+  background: radial-gradient(circle at center, rgba(255, 244, 208, 0.24), transparent 44%);
+  animation: fireworksFlash 1.25s ease-out both;
 }
 
-.butterfly-transition__butterfly {
+.fireworks-transition__burst,
+.fireworks-transition__spark {
   position: absolute;
-  display: block;
-  transform: translate3d(0, 0, 0) rotate(var(--butterfly-rotate, 0deg));
+}
+
+.fireworks-transition__burst {
+  transform: translate(-50%, -50%) scale(0.2);
   opacity: 0;
-  animation: butterflyLift 1.2s ease-out forwards;
-  filter: hue-rotate(var(--butterfly-hue, 0deg)) saturate(var(--butterfly-saturation, 100%));
+  filter: hue-rotate(var(--firework-hue, 0deg)) saturate(120%);
+  animation: fireworkBurst 1.15s ease-out forwards;
 }
 
-.butterfly-transition__wing-group,
-.butterfly-transition__wing,
-.butterfly-transition__body,
-.butterfly-transition__antenna {
-  position: absolute;
-}
-
-.butterfly-transition__wing-group {
-  top: 8%;
-  width: 44%;
-  height: 84%;
-  animation: butterflyFlap 260ms ease-in-out infinite alternate;
-}
-
-.butterfly-transition__wing-group--left {
-  left: 6%;
-  transform-origin: 100% 54%;
-}
-
-.butterfly-transition__wing-group--right {
-  right: 6%;
-  transform-origin: 0 54%;
-  animation-delay: 130ms;
-}
-
-.butterfly-transition__wing {
-  width: 100%;
-  background:
-    radial-gradient(circle at 28% 28%, rgba(255, 255, 255, 0.95), rgba(230, 255, 217, 0.98) 34%, rgba(126, 214, 133, 0.96) 72%, rgba(34, 139, 34, 0.95) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 10px 20px rgba(34, 139, 34, 0.18);
-}
-
-.butterfly-transition__wing::after {
+.fireworks-transition__burst::before {
   content: "";
   position: absolute;
-  inset: 12% 14%;
-  border-radius: inherit;
-  background:
-    radial-gradient(circle at 34% 34%, rgba(255, 255, 255, 0.88), transparent 24%),
-    radial-gradient(circle at 68% 70%, rgba(255, 247, 219, 0.7), transparent 18%),
-    radial-gradient(circle at 60% 34%, rgba(255, 255, 255, 0.32), transparent 32%);
-  mix-blend-mode: screen;
-  opacity: 0.9;
-}
-
-.butterfly-transition__wing--top {
-  top: 0;
-  height: 58%;
-}
-
-.butterfly-transition__wing--bottom {
-  bottom: 2%;
-  height: 42%;
-}
-
-.butterfly-transition__wing--left {
-  left: 0;
-}
-
-.butterfly-transition__wing--right {
-  right: 0;
-  transform: scaleX(-1);
-}
-
-.butterfly-transition__wing--top.butterfly-transition__wing--left {
-  border-radius: 88% 18% 70% 30%;
-}
-
-.butterfly-transition__wing--top.butterfly-transition__wing--right {
-  border-radius: 18% 88% 30% 70%;
-}
-
-.butterfly-transition__wing--bottom.butterfly-transition__wing--left {
-  border-radius: 52% 22% 86% 36%;
-}
-
-.butterfly-transition__wing--bottom.butterfly-transition__wing--right {
-  border-radius: 22% 52% 36% 86%;
-}
-
-.butterfly-transition__body {
-  left: 50%;
-  top: 10%;
-  width: 10%;
-  height: 72%;
-  border-radius: 999px;
-  transform: translateX(-50%);
-  background: linear-gradient(180deg, rgba(28, 64, 36, 0.95), rgba(11, 27, 18, 0.98));
-  box-shadow: 0 0 0 1px rgba(235, 255, 235, 0.18);
-}
-
-.butterfly-transition__body::before,
-.butterfly-transition__body::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  width: 58%;
-  height: 10%;
-  transform: translateX(-50%);
-  border-radius: 999px;
-  background: rgba(241, 255, 240, 0.22);
-}
-
-.butterfly-transition__body::before {
-  top: 18%;
-}
-
-.butterfly-transition__body::after {
-  top: 52%;
-}
-
-.butterfly-transition__antenna {
-  top: 1%;
-  width: 2px;
-  height: 22%;
-  background: linear-gradient(180deg, rgba(244, 255, 241, 0.8), rgba(244, 255, 241, 0));
-  transform-origin: bottom center;
-}
-
-.butterfly-transition__antenna::after {
-  content: "";
-  position: absolute;
-  top: -3px;
-  left: 50%;
-  width: 5px;
-  height: 5px;
+  inset: 34%;
   border-radius: 50%;
-  background: rgba(251, 255, 251, 0.9);
+  background: radial-gradient(circle, rgba(255, 252, 238, 0.98), rgba(255, 223, 138, 0.7) 56%, rgba(255, 223, 138, 0) 100%);
+  box-shadow: 0 0 24px rgba(255, 223, 138, 0.5);
+}
+
+.fireworks-transition__spark {
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 40%;
+  margin-left: -2px;
+  transform-origin: center 100%;
+  transform: rotate(var(--spark-angle, 0deg)) translateY(0);
+}
+
+.fireworks-transition__spark::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 100%;
+  height: var(--spark-distance, 48px);
+  border-radius: 999px;
   transform: translateX(-50%);
-}
-
-.butterfly-transition__antenna--left {
-  left: calc(50% - 2px);
-  transform: translateX(-50%) rotate(-28deg);
-}
-
-.butterfly-transition__antenna--right {
-  left: calc(50% + 2px);
-  transform: translateX(-50%) rotate(28deg);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 248, 219, 0.98) 32%, rgba(255, 205, 90, 0.9) 68%, rgba(255, 170, 47, 0.12));
+  box-shadow: 0 0 12px rgba(255, 210, 107, 0.44);
+  opacity: 0;
+  animation: fireworkSpark 1s ease-out forwards;
+  animation-delay: var(--spark-delay, 0ms);
 }
 
 .page-shell {
@@ -2997,36 +2893,50 @@ button.button:disabled {
   }
 }
 
-@keyframes butterflyLift {
+@keyframes fireworkBurst {
   0% {
     opacity: 0;
-    transform: translate3d(0, 20px, 0) scale(0.66) rotate(var(--butterfly-rotate, 0deg));
+    transform: translate(-50%, -44%) scale(0.16);
+  }
+
+  24% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.82);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -54%) scale(1.08);
+  }
+}
+
+@keyframes fireworkSpark {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scaleY(0.2);
   }
 
   18% {
     opacity: 1;
   }
 
-  46% {
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scaleY(1.06);
+  }
+}
+
+@keyframes fireworksFlash {
+  0% {
+    opacity: 0;
+  }
+
+  26% {
     opacity: 1;
-    transform: translate3d(calc(var(--butterfly-sway, 0px) * 0.4), calc(var(--butterfly-lift) * -0.38), 0) scale(0.9)
-      rotate(calc(var(--butterfly-rotate, 0deg) - 8deg));
   }
 
   100% {
     opacity: 0;
-    transform: translate3d(calc(var(--butterfly-drift) + var(--butterfly-sway, 0px)), calc(var(--butterfly-lift) * -1), 0)
-      scale(1.08) rotate(calc(var(--butterfly-rotate, 0deg) + 18deg));
-  }
-}
-
-@keyframes butterflyFlap {
-  from {
-    transform: rotateY(18deg) rotate(-10deg) scaleY(1);
-  }
-
-  to {
-    transform: rotateY(72deg) rotate(8deg) scaleY(0.92);
   }
 }
 

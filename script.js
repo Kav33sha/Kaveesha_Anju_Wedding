@@ -18,7 +18,7 @@ const rsvpStatus = document.querySelector("#rsvp-status");
 const petalShower = document.querySelector("#petal-shower");
 const weddingMusic = document.querySelector("#wedding-music");
 const musicToggle = document.querySelector("#music-toggle");
-const butterflyTransition = document.querySelector("#butterfly-transition");
+const fireworksTransition = document.querySelector("#fireworks-transition");
 const guestNameDisplay = document.querySelector("#personalized-guest-name");
 const guestNameInput = document.querySelector("#guest-link-name");
 const guestLinkButton = document.querySelector("#copy-guest-link");
@@ -32,7 +32,7 @@ const EDIT_MODE_VALUE = "1";
 const GUEST_TOKEN_PARAM = "g";
 const LEGACY_GUEST_PARAM = "guest";
 const GUEST_TOKEN_KEY = "KaveeshaAnjuWeddingInvite2026";
-const BUTTERFLY_COUNT = 12;
+const FIREWORK_BURST_COUNT = 7;
 
 function updateCountdown() {
   if (!countdownElements.days) {
@@ -159,7 +159,7 @@ function setupInvitationTransition() {
 
     sessionStorage.setItem(MUSIC_AUTOPLAY_KEY, "true");
 
-    launchButterflyTransition();
+    launchFireworksTransition();
     document.body.classList.add("invitation-opening");
     invitationTrigger.style.pointerEvents = "none";
 
@@ -169,95 +169,56 @@ function setupInvitationTransition() {
   });
 }
 
-function createButterfly(index) {
-  const butterfly = document.createElement("span");
-  butterfly.className = "butterfly-transition__butterfly";
-  butterfly.setAttribute("aria-hidden", "true");
+function createFireworkBurst(index) {
+  const burst = document.createElement("span");
+  burst.className = "fireworks-transition__burst";
+  burst.setAttribute("aria-hidden", "true");
 
-  const wingGroupLeft = document.createElement("span");
-  wingGroupLeft.className = "butterfly-transition__wing-group butterfly-transition__wing-group--left";
+  const sparkleCount = 14;
+  const left = 12 + Math.random() * 76;
+  const top = 18 + Math.random() * 48;
+  const delay = index * 140;
+  const size = 110 + Math.random() * 90;
+  const hue = Math.round(24 + Math.random() * 110);
 
-  const wingGroupRight = document.createElement("span");
-  wingGroupRight.className = "butterfly-transition__wing-group butterfly-transition__wing-group--right";
+  burst.style.left = `${left}%`;
+  burst.style.top = `${top}%`;
+  burst.style.width = `${size}px`;
+  burst.style.height = `${size}px`;
+  burst.style.animationDelay = `${delay}ms`;
+  burst.style.setProperty("--firework-hue", `${hue}deg`);
 
-  const wingTopLeft = document.createElement("span");
-  wingTopLeft.className = "butterfly-transition__wing butterfly-transition__wing--top butterfly-transition__wing--left";
+  for (let sparkleIndex = 0; sparkleIndex < sparkleCount; sparkleIndex += 1) {
+    const sparkle = document.createElement("span");
+    sparkle.className = "fireworks-transition__spark";
+    sparkle.style.setProperty("--spark-angle", `${(360 / sparkleCount) * sparkleIndex}deg`);
+    sparkle.style.setProperty("--spark-distance", `${34 + Math.random() * 30}px`);
+    sparkle.style.setProperty("--spark-delay", `${120 + Math.random() * 220}ms`);
+    burst.appendChild(sparkle);
+  }
 
-  const wingBottomLeft = document.createElement("span");
-  wingBottomLeft.className = "butterfly-transition__wing butterfly-transition__wing--bottom butterfly-transition__wing--left";
-
-  const wingTopRight = document.createElement("span");
-  wingTopRight.className = "butterfly-transition__wing butterfly-transition__wing--top butterfly-transition__wing--right";
-
-  const wingBottomRight = document.createElement("span");
-  wingBottomRight.className = "butterfly-transition__wing butterfly-transition__wing--bottom butterfly-transition__wing--right";
-
-  const body = document.createElement("span");
-  body.className = "butterfly-transition__body";
-
-  const antennaLeft = document.createElement("span");
-  antennaLeft.className = "butterfly-transition__antenna butterfly-transition__antenna--left";
-
-  const antennaRight = document.createElement("span");
-  antennaRight.className = "butterfly-transition__antenna butterfly-transition__antenna--right";
-
-  wingGroupLeft.appendChild(wingTopLeft);
-  wingGroupLeft.appendChild(wingBottomLeft);
-  wingGroupRight.appendChild(wingTopRight);
-  wingGroupRight.appendChild(wingBottomRight);
-
-  butterfly.appendChild(wingGroupLeft);
-  butterfly.appendChild(wingGroupRight);
-  butterfly.appendChild(body);
-  butterfly.appendChild(antennaLeft);
-  butterfly.appendChild(antennaRight);
-
-  const left = 18 + Math.random() * 64;
-  const size = 24 + Math.random() * 18;
-  const drift = -140 + Math.random() * 280;
-  const lift = 220 + Math.random() * 190;
-  const delay = index * 55;
-  const duration = 1000 + Math.random() * 420;
-  const rotateStart = -20 + Math.random() * 40;
-  const sway = -28 + Math.random() * 56;
-  const hue = 8 + Math.random() * 18;
-  const saturation = 8 + Math.random() * 15;
-
-  butterfly.style.left = `${left}%`;
-  butterfly.style.bottom = `${12 + Math.random() * 14}%`;
-  butterfly.style.width = `${size * 2}px`;
-  butterfly.style.height = `${size * 1.9}px`;
-  butterfly.style.setProperty("--butterfly-drift", `${drift}px`);
-  butterfly.style.setProperty("--butterfly-lift", `${lift}px`);
-  butterfly.style.setProperty("--butterfly-rotate", `${rotateStart}deg`);
-  butterfly.style.setProperty("--butterfly-sway", `${sway}px`);
-  butterfly.style.setProperty("--butterfly-hue", `${hue}deg`);
-  butterfly.style.setProperty("--butterfly-saturation", `${100 + saturation}%`);
-  butterfly.style.animationDelay = `${delay}ms`;
-  butterfly.style.animationDuration = `${duration}ms`;
-
-  return butterfly;
+  return burst;
 }
 
-function launchButterflyTransition() {
-  if (!butterflyTransition || prefersReducedMotion) {
+function launchFireworksTransition() {
+  if (!fireworksTransition || prefersReducedMotion) {
     return;
   }
 
-  butterflyTransition.replaceChildren();
-  butterflyTransition.hidden = false;
-  butterflyTransition.classList.remove("is-active");
-  void butterflyTransition.offsetWidth;
-  butterflyTransition.classList.add("is-active");
+  fireworksTransition.replaceChildren();
+  fireworksTransition.hidden = false;
+  fireworksTransition.classList.remove("is-active");
+  void fireworksTransition.offsetWidth;
+  fireworksTransition.classList.add("is-active");
 
-  for (let index = 0; index < BUTTERFLY_COUNT; index += 1) {
-    butterflyTransition.appendChild(createButterfly(index));
+  for (let index = 0; index < FIREWORK_BURST_COUNT; index += 1) {
+    fireworksTransition.appendChild(createFireworkBurst(index));
   }
 
   window.setTimeout(() => {
-    butterflyTransition.classList.remove("is-active");
-    butterflyTransition.hidden = true;
-    butterflyTransition.replaceChildren();
+    fireworksTransition.classList.remove("is-active");
+    fireworksTransition.hidden = true;
+    fireworksTransition.replaceChildren();
   }, 1500);
 }
 
