@@ -8,6 +8,7 @@ const FIREWORK_PALETTE = [
   { hue: 0, core: "#ffd35a", glow: "#ff9f1c" },
   { hue: 10, core: "#ffdca8", glow: "#ffb347" },
   { hue: 20, core: "#ffe8bf", glow: "#ff8f3f" },
+  { hue: 138, core: "#b8ffe2", glow: "#1cac78" },
 ];
 const animatedSections = document.querySelectorAll(".section");
 const navLinks = document.querySelectorAll(".details-nav__links a, .details-nav__brand");
@@ -37,7 +38,7 @@ const EDIT_MODE_VALUE = "1";
 const GUEST_TOKEN_PARAM = "g";
 const LEGACY_GUEST_PARAM = "guest";
 const GUEST_TOKEN_KEY = "KaveeshaAnjuWeddingInvite2026";
-const FIREWORK_BURST_COUNT = 7;
+const FIREWORK_BURST_COUNT = 11;
 
 function updateCountdown() {
   if (!countdownElements.days) {
@@ -185,8 +186,8 @@ function createFireworkBurst(index) {
   const core = document.createElement("span");
   core.className = "fireworks-transition__core";
 
-  const sparkleCount = 14 + Math.floor(Math.random() * 8);
-  const emberCount = 10 + Math.floor(Math.random() * 6);
+  const sparkleCount = 18 + Math.floor(Math.random() * 10);
+  const emberCount = 14 + Math.floor(Math.random() * 8);
   const left = 14 + Math.random() * 72;
   const top = 22 + Math.random() * 44;
   const delay = index * 120;
