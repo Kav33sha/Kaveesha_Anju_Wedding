@@ -307,7 +307,7 @@ function setGuestLinkStatus(message, type) {
 }
 
 function buildGuestLink(guestName) {
-  const url = new URL("details.html", window.location.href);
+  const url = new URL("index.html", window.location.href);
   url.searchParams.delete(EDIT_MODE_PARAM);
   url.searchParams.delete(LEGACY_GUEST_PARAM);
   url.searchParams.delete(GUEST_TOKEN_PARAM);
