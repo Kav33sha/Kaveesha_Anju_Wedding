@@ -5,9 +5,9 @@
   --surface-strong: #fcfffb;
   --text: #173224;
   --muted: #4c6d57;
-  --accent: #98fb98;
-  --accent-deep: #61c96f;
-  --green: #2f6b41;
+  --accent: #b7e4b7;
+  --accent-deep: #228b22;
+  --green: #228b22;
   --green-soft: #e0f7de;
   --line: rgba(76, 108, 85, 0.16);
   --shadow: 0 24px 70px rgba(33, 57, 42, 0.12);
@@ -565,7 +565,7 @@ main {
   margin-bottom: 0;
   border-radius: 0;
   border-inline: 0;
-  background: linear-gradient(180deg, #7ecb82 0%, #214e31 100%);
+  background: linear-gradient(180deg, #78c878 0%, #228b22 100%);
 }
 
 .hero__image-layer {
@@ -763,9 +763,9 @@ body.invitation-opening .hero__spark {
 }
 
 .button--primary {
-  color: #163122;
-  background: linear-gradient(135deg, #dffff0, var(--accent));
-  box-shadow: 0 14px 30px rgba(152, 251, 152, 0.28);
+  color: #f7fff7;
+  background: linear-gradient(135deg, #43a943, var(--accent-deep));
+  box-shadow: 0 14px 30px rgba(34, 139, 34, 0.28);
 }
 
 .button--secondary {
@@ -1785,8 +1785,8 @@ body.invitation-opening .hero__spark {
   height: 14px;
   border-radius: 50% 50% 50% 0;
   transform: rotate(-45deg);
-  background: linear-gradient(135deg, #dfffd8, #7ad78a);
-  box-shadow: 0 6px 14px rgba(122, 215, 138, 0.26);
+  background: linear-gradient(135deg, #9ad99a, #228b22);
+  box-shadow: 0 6px 14px rgba(34, 139, 34, 0.26);
 }
 
 .invitation-dedication__label {
