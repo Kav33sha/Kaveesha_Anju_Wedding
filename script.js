@@ -39,7 +39,7 @@ const GUEST_TOKEN_PARAM = "g";
 const LEGACY_GUEST_PARAM = "guest";
 const GUEST_TOKEN_KEY = "KaveeshaAnjuWeddingInvite2026";
 const FIREWORK_BURST_COUNT = 11;
-const INVITATION_OPEN_DELAY_MS = 220;
+const INVITATION_OPEN_DELAY_MS = 320;
 
 function updateCountdown() {
   if (!countdownElements.days) {
