@@ -70,9 +70,17 @@ body.invitation-opening {
   overflow: hidden;
 }
 
+body.invitation-opening .page-shell--landing {
+  transform: translateY(-28px) scale(0.992);
+}
+
+body.invitation-opening .hero--landing {
+  transform: translateY(-18px);
+}
+
 body.invitation-opening .hero__content {
   opacity: 0;
-  transform: translateY(-10px) scale(0.985);
+  transform: translateY(-24px) scale(0.982);
   filter: blur(8px);
 }
 
@@ -251,6 +259,8 @@ body.invitation-opening .hero__spark {
   display: grid;
   padding-bottom: 0;
   overflow: hidden;
+  transform-origin: center center;
+  transition: transform 220ms ease;
 }
 
 main {
@@ -772,6 +782,10 @@ main {
   animation: heroReveal 1.2s ease-out both;
   transition: opacity 180ms ease, transform 220ms ease, filter 220ms ease;
   z-index: 3;
+}
+
+.hero--landing {
+  transition: transform 220ms ease;
 }
 
 .eyebrow,
