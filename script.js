@@ -4,8 +4,8 @@ const PETAL_COUNT = 8;
 const PETAL_INTERVAL_MS = 900;
 const MUSIC_AUTOPLAY_KEY = "weddingMusicAutoplay";
 const MUSIC_STOPPED_KEY = "weddingMusicStopped";
-const HEART_BURST_COUNT = 16;
-const INVITATION_OPEN_DELAY_MS = 900;
+const HEART_BURST_COUNT = 12;
+const INVITATION_OPEN_DELAY_MS = 1500;
 const animatedSections = document.querySelectorAll(".section");
 const navLinks = document.querySelectorAll(".details-nav__links a, .details-nav__brand");
 const countdownElements = {
@@ -170,16 +170,19 @@ function createHeart(index) {
   const heart = document.createElement("span");
   heart.className = "heart-transition__heart";
   heart.setAttribute("aria-hidden", "true");
+  heart.textContent = "❤";
 
-  const startX = 36 + Math.random() * 28;
-  const drift = -120 + Math.random() * 240;
-  const duration = 760 + Math.random() * 260;
-  const delay = index * 34;
-  const scale = 0.7 + Math.random() * 0.8;
-  const rotate = -22 + Math.random() * 44;
+  const startX = 38 + Math.random() * 24;
+  const drift = -90 + Math.random() * 180;
+  const sway = 16 + Math.random() * 18;
+  const duration = 1350 + Math.random() * 500;
+  const delay = index * 70;
+  const scale = 0.9 + Math.random() * 0.8;
+  const rotate = -16 + Math.random() * 32;
 
   heart.style.left = `${startX}%`;
   heart.style.setProperty("--heart-drift", `${drift}px`);
+  heart.style.setProperty("--heart-sway", `${sway}px`);
   heart.style.setProperty("--heart-scale", scale.toFixed(2));
   heart.style.setProperty("--heart-rotate", `${rotate}deg`);
   heart.style.animationDelay = `${delay}ms`;
