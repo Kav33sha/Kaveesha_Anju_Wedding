@@ -4,7 +4,8 @@ const PETAL_COUNT = 8;
 const PETAL_INTERVAL_MS = 900;
 const MUSIC_AUTOPLAY_KEY = "weddingMusicAutoplay";
 const MUSIC_STOPPED_KEY = "weddingMusicStopped";
-const LANDING_BUTTERFLY_COUNT = 7;
+const HEART_BURST_COUNT = 16;
+const INVITATION_OPEN_DELAY_MS = 900;
 const animatedSections = document.querySelectorAll(".section");
 const navLinks = document.querySelectorAll(".details-nav__links a, .details-nav__brand");
 const countdownElements = {
@@ -19,7 +20,7 @@ const rsvpStatus = document.querySelector("#rsvp-status");
 const petalShower = document.querySelector("#petal-shower");
 const weddingMusic = document.querySelector("#wedding-music");
 const musicToggle = document.querySelector("#music-toggle");
-const butterflyField = document.querySelector("#butterfly-field");
+const heartTransition = document.querySelector("#heart-transition");
 const guestNameDisplay = document.querySelector("#personalized-guest-name");
 const guestNameInput = document.querySelector("#guest-link-name");
 const guestLinkButton = document.querySelector("#copy-guest-link");
@@ -132,7 +133,9 @@ function setupInvitationTransition() {
     return;
   }
 
-  invitationTrigger.addEventListener("click", () => {
+  invitationTrigger.addEventListener("click", (event) => {
+    event.preventDefault();
+
     const nextPage = invitationTrigger.getAttribute("href");
     const searchParams = new URLSearchParams(window.location.search);
     const guestToken = searchParams.get(GUEST_TOKEN_PARAM);
@@ -153,67 +156,58 @@ function setupInvitationTransition() {
     }
 
     sessionStorage.setItem(MUSIC_AUTOPLAY_KEY, "true");
-    invitationTrigger.href = destination.toString();
+    launchHeartTransition();
+    invitationTrigger.setAttribute("aria-disabled", "true");
+    invitationTrigger.style.pointerEvents = "none";
+
+    window.setTimeout(() => {
+      window.location.href = destination.toString();
+    }, INVITATION_OPEN_DELAY_MS);
   });
 }
 
-function createButterfly(index) {
-  const butterfly = document.createElement("span");
-  butterfly.className = "butterfly";
-  butterfly.setAttribute("aria-hidden", "true");
+function createHeart(index) {
+  const heart = document.createElement("span");
+  heart.className = "heart-transition__heart";
+  heart.setAttribute("aria-hidden", "true");
 
-  const body = document.createElement("span");
-  body.className = "butterfly__body";
+  const startX = 36 + Math.random() * 28;
+  const drift = -120 + Math.random() * 240;
+  const duration = 760 + Math.random() * 260;
+  const delay = index * 34;
+  const scale = 0.7 + Math.random() * 0.8;
+  const rotate = -22 + Math.random() * 44;
 
-  const leftWing = document.createElement("span");
-  leftWing.className = "butterfly__wing butterfly__wing--left";
+  heart.style.left = `${startX}%`;
+  heart.style.setProperty("--heart-drift", `${drift}px`);
+  heart.style.setProperty("--heart-scale", scale.toFixed(2));
+  heart.style.setProperty("--heart-rotate", `${rotate}deg`);
+  heart.style.animationDelay = `${delay}ms`;
+  heart.style.animationDuration = `${duration}ms`;
 
-  const rightWing = document.createElement("span");
-  rightWing.className = "butterfly__wing butterfly__wing--right";
-
-  const duration = 4.8 + Math.random() * 1.8;
-  const delay = index * 220 + Math.random() * 240;
-  const startX = -12 - Math.random() * 8;
-  const endX = 104 + Math.random() * 10;
-  const startY = 18 + Math.random() * 58;
-  const endY = startY - 12 + Math.random() * 24;
-  const drift = 22 + Math.random() * 32;
-  const scale = 0.72 + Math.random() * 0.5;
-  const tilt = -12 + Math.random() * 24;
-  const hue = [-8, 0, 10, 24, 38][index % 5];
-
-  butterfly.style.setProperty("--butterfly-start-x", `${startX}vw`);
-  butterfly.style.setProperty("--butterfly-end-x", `${endX}vw`);
-  butterfly.style.setProperty("--butterfly-start-y", `${startY}vh`);
-  butterfly.style.setProperty("--butterfly-end-y", `${endY}vh`);
-  butterfly.style.setProperty("--butterfly-drift", `${drift}px`);
-  butterfly.style.setProperty("--butterfly-scale", scale.toFixed(2));
-  butterfly.style.setProperty("--butterfly-tilt", `${tilt}deg`);
-  butterfly.style.setProperty("--butterfly-duration", `${duration.toFixed(2)}s`);
-  butterfly.style.setProperty("--butterfly-delay", `${delay}ms`);
-  butterfly.style.setProperty("--butterfly-hue", `${hue}deg`);
-
-  butterfly.appendChild(leftWing);
-  butterfly.appendChild(rightWing);
-  butterfly.appendChild(body);
-
-  return butterfly;
+  return heart;
 }
 
-function setupLandingButterflies() {
-  if (!butterflyField || prefersReducedMotion) {
+function launchHeartTransition() {
+  if (!heartTransition || prefersReducedMotion) {
     return;
   }
 
-  butterflyField.replaceChildren();
+  heartTransition.replaceChildren();
+  heartTransition.hidden = false;
+  heartTransition.classList.remove("is-active");
+  void heartTransition.offsetWidth;
+  heartTransition.classList.add("is-active");
 
-  for (let index = 0; index < LANDING_BUTTERFLY_COUNT; index += 1) {
-    butterflyField.appendChild(createButterfly(index));
+  for (let index = 0; index < HEART_BURST_COUNT; index += 1) {
+    heartTransition.appendChild(createHeart(index));
   }
 
   window.setTimeout(() => {
-    butterflyField.replaceChildren();
-  }, 7200);
+    heartTransition.classList.remove("is-active");
+    heartTransition.hidden = true;
+    heartTransition.replaceChildren();
+  }, INVITATION_OPEN_DELAY_MS + 120);
 }
 
 function setupAdminEditRedirect() {
@@ -624,7 +618,6 @@ setupScrollReveal();
 setupNavSpy();
 setupAdminEditRedirect();
 setupInvitationTransition();
-setupLandingButterflies();
 setupGuestEditorAccess();
 setupGuestInvitation();
 setupRsvpForm();
