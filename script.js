@@ -4,12 +4,7 @@ const PETAL_COUNT = 8;
 const PETAL_INTERVAL_MS = 900;
 const MUSIC_AUTOPLAY_KEY = "weddingMusicAutoplay";
 const MUSIC_STOPPED_KEY = "weddingMusicStopped";
-const FIREWORK_PALETTE = [
-  { hue: 0, core: "#ffd35a", glow: "#ff9f1c" },
-  { hue: 10, core: "#ffdca8", glow: "#ffb347" },
-  { hue: 20, core: "#ffe8bf", glow: "#ff8f3f" },
-  { hue: 138, core: "#b8ffe2", glow: "#1cac78" },
-];
+const LANDING_BUTTERFLY_COUNT = 7;
 const animatedSections = document.querySelectorAll(".section");
 const navLinks = document.querySelectorAll(".details-nav__links a, .details-nav__brand");
 const countdownElements = {
@@ -24,7 +19,7 @@ const rsvpStatus = document.querySelector("#rsvp-status");
 const petalShower = document.querySelector("#petal-shower");
 const weddingMusic = document.querySelector("#wedding-music");
 const musicToggle = document.querySelector("#music-toggle");
-const fireworksTransition = document.querySelector("#fireworks-transition");
+const butterflyField = document.querySelector("#butterfly-field");
 const guestNameDisplay = document.querySelector("#personalized-guest-name");
 const guestNameInput = document.querySelector("#guest-link-name");
 const guestLinkButton = document.querySelector("#copy-guest-link");
@@ -38,8 +33,6 @@ const EDIT_MODE_VALUE = "1";
 const GUEST_TOKEN_PARAM = "g";
 const LEGACY_GUEST_PARAM = "guest";
 const GUEST_TOKEN_KEY = "KaveeshaAnjuWeddingInvite2026";
-const FIREWORK_BURST_COUNT = 11;
-const INVITATION_OPEN_DELAY_MS = 320;
 
 function updateCountdown() {
   if (!countdownElements.days) {
@@ -139,9 +132,7 @@ function setupInvitationTransition() {
     return;
   }
 
-  invitationTrigger.addEventListener("click", (event) => {
-    event.preventDefault();
-
+  invitationTrigger.addEventListener("click", () => {
     const nextPage = invitationTrigger.getAttribute("href");
     const searchParams = new URLSearchParams(window.location.search);
     const guestToken = searchParams.get(GUEST_TOKEN_PARAM);
@@ -162,104 +153,67 @@ function setupInvitationTransition() {
     }
 
     sessionStorage.setItem(MUSIC_AUTOPLAY_KEY, "true");
-    invitationTrigger.classList.add("is-pressing");
-    document.body.classList.add("invitation-opening");
-    invitationTrigger.setAttribute("aria-disabled", "true");
-    invitationTrigger.style.pointerEvents = "none";
-
-    window.setTimeout(() => {
-      window.location.href = destination.toString();
-    }, INVITATION_OPEN_DELAY_MS);
+    invitationTrigger.href = destination.toString();
   });
 }
 
-function createFireworkBurst(index) {
-  const burst = document.createElement("span");
-  burst.className = "fireworks-transition__burst";
-  burst.setAttribute("aria-hidden", "true");
+function createButterfly(index) {
+  const butterfly = document.createElement("span");
+  butterfly.className = "butterfly";
+  butterfly.setAttribute("aria-hidden", "true");
 
-  const rocket = document.createElement("span");
-  rocket.className = "fireworks-transition__rocket";
+  const body = document.createElement("span");
+  body.className = "butterfly__body";
 
-  const core = document.createElement("span");
-  core.className = "fireworks-transition__core";
+  const leftWing = document.createElement("span");
+  leftWing.className = "butterfly__wing butterfly__wing--left";
 
-  const sparkleCount = 18 + Math.floor(Math.random() * 10);
-  const emberCount = 14 + Math.floor(Math.random() * 8);
-  const left = 14 + Math.random() * 72;
-  const top = 22 + Math.random() * 44;
-  const delay = index * 120;
-  const size = 150 + Math.random() * 120;
-  const palette = FIREWORK_PALETTE[index % FIREWORK_PALETTE.length];
-  const rise = 90 + Math.random() * 120;
-  const drift = -30 + Math.random() * 60;
+  const rightWing = document.createElement("span");
+  rightWing.className = "butterfly__wing butterfly__wing--right";
 
-  burst.style.left = `${left}%`;
-  burst.style.top = `${top}%`;
-  burst.style.width = `${size}px`;
-  burst.style.height = `${size}px`;
-  burst.style.animationDelay = `${delay}ms`;
-  burst.style.setProperty("--firework-hue", `${palette.hue}deg`);
-  burst.style.setProperty("--firework-core", palette.core);
-  burst.style.setProperty("--firework-glow", palette.glow);
-  burst.style.setProperty("--rocket-rise", `${rise}px`);
-  burst.style.setProperty("--rocket-drift", `${drift}px`);
+  const duration = 4.8 + Math.random() * 1.8;
+  const delay = index * 220 + Math.random() * 240;
+  const startX = -12 - Math.random() * 8;
+  const endX = 104 + Math.random() * 10;
+  const startY = 18 + Math.random() * 58;
+  const endY = startY - 12 + Math.random() * 24;
+  const drift = 22 + Math.random() * 32;
+  const scale = 0.72 + Math.random() * 0.5;
+  const tilt = -12 + Math.random() * 24;
+  const hue = [-8, 0, 10, 24, 38][index % 5];
 
-  burst.appendChild(rocket);
-  burst.appendChild(core);
+  butterfly.style.setProperty("--butterfly-start-x", `${startX}vw`);
+  butterfly.style.setProperty("--butterfly-end-x", `${endX}vw`);
+  butterfly.style.setProperty("--butterfly-start-y", `${startY}vh`);
+  butterfly.style.setProperty("--butterfly-end-y", `${endY}vh`);
+  butterfly.style.setProperty("--butterfly-drift", `${drift}px`);
+  butterfly.style.setProperty("--butterfly-scale", scale.toFixed(2));
+  butterfly.style.setProperty("--butterfly-tilt", `${tilt}deg`);
+  butterfly.style.setProperty("--butterfly-duration", `${duration.toFixed(2)}s`);
+  butterfly.style.setProperty("--butterfly-delay", `${delay}ms`);
+  butterfly.style.setProperty("--butterfly-hue", `${hue}deg`);
 
-  for (let sparkleIndex = 0; sparkleIndex < sparkleCount; sparkleIndex += 1) {
-    const sparkle = document.createElement("span");
-    sparkle.className = "fireworks-transition__spark";
-    const angle = -155 + Math.random() * 130;
-    const distance = 50 + Math.random() * 92;
-    const x = Math.cos((angle * Math.PI) / 180) * distance;
-    const y = Math.sin((angle * Math.PI) / 180) * distance;
-    sparkle.style.setProperty("--spark-x", `${x.toFixed(2)}px`);
-    sparkle.style.setProperty("--spark-y", `${y.toFixed(2)}px`);
-    sparkle.style.setProperty("--spark-rotate", `${-28 + Math.random() * 56}deg`);
-    sparkle.style.setProperty("--spark-thickness", `${1.8 + Math.random() * 2}px`);
-    sparkle.style.setProperty("--spark-length", `${42 + Math.random() * 54}px`);
-    sparkle.style.setProperty("--spark-delay", `${440 + Math.random() * 130}ms`);
-    sparkle.style.setProperty("--spark-duration", `${660 + Math.random() * 180}ms`);
-    burst.appendChild(sparkle);
-  }
+  butterfly.appendChild(leftWing);
+  butterfly.appendChild(rightWing);
+  butterfly.appendChild(body);
 
-  for (let emberIndex = 0; emberIndex < emberCount; emberIndex += 1) {
-    const ember = document.createElement("span");
-    ember.className = "fireworks-transition__ember";
-    ember.style.setProperty("--ember-x", `${-56 + Math.random() * 112}px`);
-    ember.style.setProperty("--ember-y", `${-72 - Math.random() * 54}px`);
-    ember.style.setProperty("--ember-fall", `${44 + Math.random() * 42}px`);
-    ember.style.setProperty("--ember-delay", `${520 + Math.random() * 180}ms`);
-    ember.style.setProperty("--ember-duration", `${780 + Math.random() * 240}ms`);
-    ember.style.setProperty("--ember-size", `${2 + Math.random() * 3}px`);
-    burst.appendChild(ember);
-  }
-
-  return burst;
+  return butterfly;
 }
 
-function launchFireworksTransition() {
-  if (!fireworksTransition || prefersReducedMotion) {
+function setupLandingButterflies() {
+  if (!butterflyField || prefersReducedMotion) {
     return;
   }
 
-  fireworksTransition.replaceChildren();
-  fireworksTransition.hidden = false;
-  fireworksTransition.classList.remove("is-active");
-  void fireworksTransition.offsetWidth;
-  fireworksTransition.classList.add("is-active");
+  butterflyField.replaceChildren();
 
-  for (let index = 0; index < FIREWORK_BURST_COUNT; index += 1) {
-    fireworksTransition.appendChild(createFireworkBurst(index));
+  for (let index = 0; index < LANDING_BUTTERFLY_COUNT; index += 1) {
+    butterflyField.appendChild(createButterfly(index));
   }
 
   window.setTimeout(() => {
-    fireworksTransition.classList.remove("is-active");
-    fireworksTransition.hidden = true;
-    fireworksTransition.replaceChildren();
-  }, 1500);
+    butterflyField.replaceChildren();
+  }, 7200);
 }
 
 function setupAdminEditRedirect() {
@@ -670,6 +624,7 @@ setupScrollReveal();
 setupNavSpy();
 setupAdminEditRedirect();
 setupInvitationTransition();
+setupLandingButterflies();
 setupGuestEditorAccess();
 setupGuestInvitation();
 setupRsvpForm();
