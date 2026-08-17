@@ -139,11 +139,6 @@ function setupInvitationTransition() {
   }
 
   invitationTrigger.addEventListener("click", (event) => {
-    if (prefersReducedMotion) {
-      return;
-    }
-
-    event.preventDefault();
     const nextPage = invitationTrigger.getAttribute("href");
     const searchParams = new URLSearchParams(window.location.search);
     const guestToken = searchParams.get(GUEST_TOKEN_PARAM);
@@ -164,14 +159,7 @@ function setupInvitationTransition() {
     }
 
     sessionStorage.setItem(MUSIC_AUTOPLAY_KEY, "true");
-
-    launchFireworksTransition();
-    document.body.classList.add("invitation-opening");
-    invitationTrigger.style.pointerEvents = "none";
-
-    window.setTimeout(() => {
-      window.location.href = destination.toString();
-    }, 1250);
+    invitationTrigger.href = destination.toString();
   });
 }
 
