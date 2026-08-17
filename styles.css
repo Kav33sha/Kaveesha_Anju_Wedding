@@ -70,6 +70,20 @@ body.invitation-opening {
   overflow: hidden;
 }
 
+body.invitation-opening .hero__content {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.985);
+  filter: blur(8px);
+}
+
+body.invitation-opening .hero__ornament,
+body.invitation-opening .hero__veil,
+body.invitation-opening .hero__spark {
+  opacity: 0;
+  transform: translateY(-6px) scale(0.98);
+  filter: blur(6px);
+}
+
 .fireworks-transition {
   position: absolute;
   inset: 0;
@@ -720,6 +734,7 @@ main {
   border-radius: 50%;
   filter: blur(1px);
   opacity: 0.8;
+  transition: opacity 180ms ease, transform 220ms ease, filter 220ms ease;
   z-index: 2;
 }
 
@@ -755,14 +770,8 @@ main {
   box-shadow: 0 28px 70px rgba(10, 37, 27, 0.22);
   border-radius: var(--radius-lg);
   animation: heroReveal 1.2s ease-out both;
+  transition: opacity 180ms ease, transform 220ms ease, filter 220ms ease;
   z-index: 3;
-}
-
-body.invitation-opening .hero__content,
-body.invitation-opening .hero__ornament,
-body.invitation-opening .hero__veil,
-body.invitation-opening .hero__spark {
-  animation: heroDriftAway 1.15s ease-in both;
 }
 
 .eyebrow,
@@ -847,6 +856,8 @@ body.invitation-opening .hero__spark {
   min-height: 52px;
   padding: 0 22px;
   border-radius: 999px;
+  position: relative;
+  overflow: hidden;
   text-decoration: none;
   font-weight: 700;
   transition: transform 220ms ease, background-color 220ms ease, color 220ms ease, box-shadow 220ms ease, filter 220ms ease;
@@ -862,6 +873,44 @@ body.invitation-opening .hero__spark {
   color: #f7fff7;
   background: linear-gradient(135deg, #18bb84, var(--accent-deep));
   box-shadow: 0 18px 36px rgba(0, 163, 108, 0.3);
+}
+
+.button--primary::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.34);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.button--primary.view-invitation {
+  box-shadow:
+    0 18px 36px rgba(0, 163, 108, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.14) inset;
+}
+
+.button--primary.view-invitation:hover {
+  box-shadow:
+    0 22px 42px rgba(0, 163, 108, 0.34),
+    0 0 24px rgba(243, 221, 173, 0.2);
+}
+
+.button--primary.view-invitation.is-pressing {
+  transform: translateY(0) scale(0.975);
+  filter: saturate(1.08) brightness(1.02);
+  box-shadow:
+    0 10px 24px rgba(0, 163, 108, 0.24),
+    0 0 28px rgba(243, 221, 173, 0.24);
+}
+
+.button--primary.view-invitation.is-pressing::after {
+  animation: invitationRipple 360ms ease-out forwards;
 }
 
 .button--secondary {
@@ -2979,6 +3028,18 @@ button.button:disabled {
 
 .music-toggle[data-state="playing"] {
   animation: musicPulse 2.2s ease-in-out infinite;
+}
+
+@keyframes invitationRipple {
+  0% {
+    opacity: 0.42;
+    transform: translate(-50%, -50%) scale(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(18);
+  }
 }
 
 @keyframes navFloatIn {

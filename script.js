@@ -39,6 +39,7 @@ const GUEST_TOKEN_PARAM = "g";
 const LEGACY_GUEST_PARAM = "guest";
 const GUEST_TOKEN_KEY = "KaveeshaAnjuWeddingInvite2026";
 const FIREWORK_BURST_COUNT = 11;
+const INVITATION_OPEN_DELAY_MS = 220;
 
 function updateCountdown() {
   if (!countdownElements.days) {
@@ -139,6 +140,8 @@ function setupInvitationTransition() {
   }
 
   invitationTrigger.addEventListener("click", (event) => {
+    event.preventDefault();
+
     const nextPage = invitationTrigger.getAttribute("href");
     const searchParams = new URLSearchParams(window.location.search);
     const guestToken = searchParams.get(GUEST_TOKEN_PARAM);
@@ -159,7 +162,14 @@ function setupInvitationTransition() {
     }
 
     sessionStorage.setItem(MUSIC_AUTOPLAY_KEY, "true");
-    invitationTrigger.href = destination.toString();
+    invitationTrigger.classList.add("is-pressing");
+    document.body.classList.add("invitation-opening");
+    invitationTrigger.setAttribute("aria-disabled", "true");
+    invitationTrigger.style.pointerEvents = "none";
+
+    window.setTimeout(() => {
+      window.location.href = destination.toString();
+    }, INVITATION_OPEN_DELAY_MS);
   });
 }
 
