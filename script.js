@@ -561,24 +561,31 @@ function updateMusicToggle(isPlaying, isReady = true) {
 function setMusicStoppedPreference(isStopped) {
   try {
     if (isStopped) {
+      localStorage.setItem(MUSIC_STOPPED_KEY, "true");
       sessionStorage.setItem(MUSIC_STOPPED_KEY, "true");
       return;
     }
 
+    localStorage.removeItem(MUSIC_STOPPED_KEY);
     sessionStorage.removeItem(MUSIC_STOPPED_KEY);
   } catch (error) {
     // Ignore storage issues and continue with in-memory playback only.
   }
 }
 
-function shouldAutoplayMusic() {
+function isMusicStoppedPreferenceEnabled() {
   try {
-    return (
-      sessionStorage.getItem(MUSIC_AUTOPLAY_KEY) === "true" &&
-      sessionStorage.getItem(MUSIC_STOPPED_KEY) !== "true"
-    );
+    return localStorage.getItem(MUSIC_STOPPED_KEY) === "true" || sessionStorage.getItem(MUSIC_STOPPED_KEY) === "true";
   } catch (error) {
     return false;
+  }
+}
+
+function shouldAutoplayMusic() {
+  try {
+    return sessionStorage.getItem(MUSIC_AUTOPLAY_KEY) === "true" || !isMusicStoppedPreferenceEnabled();
+  } catch (error) {
+    return !isMusicStoppedPreferenceEnabled();
   }
 }
 
