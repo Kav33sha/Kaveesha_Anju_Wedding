@@ -19,7 +19,7 @@
   <body class="details-page">
     <div class="petal-shower" id="petal-shower" aria-hidden="true"></div>
 
-    <audio id="wedding-music" loop preload="auto">
+    <audio id="wedding-music" loop preload="metadata">
       <source src="wedding-music.mp3.mp3" type="audio/mpeg" />
     </audio>
 
@@ -50,6 +50,8 @@
             class="split-hero__image"
             src="first-section-image-2.png"
             alt="Wedding invitation card with floral styling, envelope, and rings for Anjalika and Kaveesha"
+            fetchpriority="high"
+            decoding="async"
           />
         </div>
       </section>
@@ -228,15 +230,15 @@
           </div>
           <div class="gallery__grid">
             <figure class="gallery__item gallery__item--tall gallery__item--feature">
-              <img class="gallery__image" src="gallery-2.jpeg" alt="The couple smiling together in front of a flower backdrop" />
+              <img class="gallery__image" src="gallery-2.jpeg" alt="The couple smiling together in front of a flower backdrop" loading="lazy" decoding="async" />
               <figcaption class="gallery__label">Forever Begins</figcaption>
             </figure>
             <figure class="gallery__item gallery__item--side gallery__item--soft-smiles">
-              <img class="gallery__image" src="gallery-3.jpeg" alt="The couple holding sparklers and smiling at each other" />
+              <img class="gallery__image" src="gallery-3.jpeg" alt="The couple holding sparklers and smiling at each other" loading="lazy" decoding="async" />
               <figcaption class="gallery__label">Soft Smiles</figcaption>
             </figure>
             <figure class="gallery__item gallery__item--side gallery__item--new-chapter">
-              <img class="gallery__image" src="gallery-4.jpeg" alt="A proposal moment captured beneath glowing lights and flowers" />
+              <img class="gallery__image" src="gallery-4.jpeg" alt="A proposal moment captured beneath glowing lights and flowers" loading="lazy" decoding="async" />
               <figcaption class="gallery__label">A New Chapter</figcaption>
             </figure>
           </div>
@@ -308,6 +310,6 @@
       <p class="site-footer__text">Created with <span class="site-footer__heart" aria-hidden="true"></span> by Kaveesha</p>
     </footer>
 
-    <script src="script.js?v=20260817d"></script>
+    <script src="script.js?v=20260819a"></script>
   </body>
 </html>

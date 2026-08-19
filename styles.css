@@ -45,6 +45,11 @@ body.landing-page {
     url("details-background.jpg") center center / cover fixed no-repeat;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 body::before {
   content: "";
   position: fixed;
@@ -3230,6 +3235,12 @@ button.button:disabled {
 
   .rsvp::before {
     inset: 14px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .details-page {
+    background-attachment: scroll;
   }
 }
 

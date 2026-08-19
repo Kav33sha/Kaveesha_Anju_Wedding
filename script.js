@@ -6,6 +6,7 @@ const MUSIC_AUTOPLAY_KEY = "weddingMusicAutoplay";
 const MUSIC_STOPPED_KEY = "weddingMusicStopped";
 const HEART_BURST_COUNT = 12;
 const INVITATION_OPEN_DELAY_MS = 1500;
+const PETAL_START_STAGGER_MS = 260;
 const animatedSections = document.querySelectorAll(".section");
 const navLinks = document.querySelectorAll(".details-nav__links a, .details-nav__brand");
 const countdownElements = {
@@ -34,6 +35,8 @@ const EDIT_MODE_VALUE = "1";
 const GUEST_TOKEN_PARAM = "g";
 const LEGACY_GUEST_PARAM = "guest";
 const GUEST_TOKEN_KEY = "KaveeshaAnjuWeddingInvite2026";
+let petalIntervalId = null;
+let hasStartedPetalShower = false;
 
 function updateCountdown() {
   if (!countdownElements.days) {
@@ -487,11 +490,73 @@ function setupPetalShower() {
     return;
   }
 
-  for (let index = 0; index < PETAL_COUNT; index += 1) {
-    window.setTimeout(createPetal, index * 260);
+  const startPetalShower = () => {
+    if (hasStartedPetalShower || document.hidden) {
+      return;
+    }
+
+    hasStartedPetalShower = true;
+
+    for (let index = 0; index < PETAL_COUNT; index += 1) {
+      window.setTimeout(() => {
+        if (!document.hidden) {
+          createPetal();
+        }
+      }, index * PETAL_START_STAGGER_MS);
+    }
+
+    if (!petalIntervalId) {
+      petalIntervalId = window.setInterval(() => {
+        if (!document.hidden) {
+          createPetal();
+        }
+      }, PETAL_INTERVAL_MS);
+    }
+  };
+
+  const stopPetalShower = () => {
+    if (petalIntervalId) {
+      window.clearInterval(petalIntervalId);
+      petalIntervalId = null;
+    }
+    hasStartedPetalShower = false;
+    petalShower.replaceChildren();
+  };
+
+  const syncPetalShower = () => {
+    if (document.hidden) {
+      stopPetalShower();
+      return;
+    }
+
+    startPetalShower();
+  };
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (!entry) {
+          return;
+        }
+
+        if (entry.isIntersecting) {
+          syncPetalShower();
+          return;
+        }
+
+        stopPetalShower();
+      },
+      {
+        threshold: 0.01,
+      }
+    );
+
+    observer.observe(document.body);
   }
 
-  window.setInterval(createPetal, PETAL_INTERVAL_MS);
+  document.addEventListener("visibilitychange", syncPetalShower);
+  syncPetalShower();
 }
 
 function updateMusicToggle(isPlaying, isReady = true) {
