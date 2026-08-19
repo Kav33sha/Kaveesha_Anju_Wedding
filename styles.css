@@ -1155,6 +1155,23 @@ main {
   margin: 34px auto 0;
 }
 
+.rsvp__actions .button {
+  width: 100%;
+}
+
+.rsvp__actions .button--secondary {
+  color: var(--accent-deep);
+  background: rgba(255, 251, 243, 0.98);
+  border: 1px solid rgba(49, 95, 68, 0.22);
+  box-shadow: 0 14px 30px rgba(23, 56, 41, 0.1);
+}
+
+.rsvp__actions .button--secondary:hover {
+  color: var(--accent-deep);
+  background: rgba(244, 236, 214, 0.98);
+  border-color: rgba(49, 95, 68, 0.36);
+}
+
 .rsvp__actions--top {
   max-width: 240px;
 }
