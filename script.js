@@ -4,7 +4,8 @@ const PETAL_COUNT = 8;
 const PETAL_INTERVAL_MS = 900;
 const MUSIC_AUTOPLAY_KEY = "weddingMusicAutoplay";
 const MUSIC_STOPPED_KEY = "weddingMusicStopped";
-const INVITATION_PETAL_COUNT = 30;
+const INVITATION_BLOOM_COUNT = 3;
+const INVITATION_SPARKLE_COUNT = 18;
 const INVITATION_OPEN_DELAY_MS = 1500;
 const PETAL_START_STAGGER_MS = 260;
 const animatedSections = document.querySelectorAll(".section");
@@ -169,65 +170,70 @@ function setupInvitationTransition() {
   });
 }
 
-function getButtonBorderPoint(triggerBounds, transitionBounds, progress) {
+function getTransitionOrigin(triggerElement, transitionBounds) {
+  const triggerBounds = (triggerElement || invitationTrigger)?.getBoundingClientRect();
+
   if (!triggerBounds) {
     return {
       x: transitionBounds.width / 2,
       y: transitionBounds.height * 0.72,
+      width: 160,
+      height: 56,
     };
   }
 
-  const localLeft = triggerBounds.left - transitionBounds.left;
-  const localTop = triggerBounds.top - transitionBounds.top;
-  const width = triggerBounds.width;
-  const height = triggerBounds.height;
-  const perimeter = width * 2 + height * 2;
-  const distance = progress * perimeter;
-
-  if (distance <= width) {
-    return { x: localLeft + distance, y: localTop };
-  }
-
-  if (distance <= width + height) {
-    return { x: localLeft + width, y: localTop + (distance - width) };
-  }
-
-  if (distance <= width * 2 + height) {
-    return { x: localLeft + width - (distance - width - height), y: localTop + height };
-  }
-
   return {
-    x: localLeft,
-    y: localTop + height - (distance - width * 2 - height),
+    x: triggerBounds.left - transitionBounds.left + triggerBounds.width / 2,
+    y: triggerBounds.top - transitionBounds.top + triggerBounds.height / 2,
+    width: triggerBounds.width,
+    height: triggerBounds.height,
   };
 }
 
-function createInvitationPetal(index, originX, originY) {
-  const petal = document.createElement("span");
-  petal.className = "invitation-transition__petal";
-  petal.setAttribute("aria-hidden", "true");
+function createInvitationBloom(index, origin) {
+  const bloom = document.createElement("span");
+  bloom.className = "invitation-transition__bloom";
+  bloom.setAttribute("aria-hidden", "true");
 
-  const size = 9 + Math.random() * 10;
-  const burstX = -180 + Math.random() * 360;
-  const burstY = -250 - Math.random() * 130;
-  const duration = 1.35 + Math.random() * 0.55;
-  const delay = index * 28;
-  const rotate = -45 + Math.random() * 90;
-  const hue = 202 + Math.random() * 12;
+  const baseSize = Math.max(origin.width, origin.height) + 18 + index * 28;
+  const duration = 0.95 + index * 0.14;
+  const delay = index * 120;
+  const scale = 4.2 + index * 0.55;
 
-  petal.style.left = `${originX}px`;
-  petal.style.top = `${originY}px`;
-  petal.style.width = `${size}px`;
-  petal.style.height = `${size * 1.55}px`;
-  petal.style.setProperty("--petal-burst-x", `${burstX}px`);
-  petal.style.setProperty("--petal-burst-y", `${burstY}px`);
-  petal.style.setProperty("--petal-rotate", `${rotate}deg`);
-  petal.style.setProperty("--petal-hue", `${hue}deg`);
-  petal.style.animationDelay = `${delay}ms`;
-  petal.style.animationDuration = `${duration}s`;
-  petal.style.opacity = `${0.78 + Math.random() * 0.18}`;
+  bloom.style.left = `${origin.x}px`;
+  bloom.style.top = `${origin.y}px`;
+  bloom.style.width = `${baseSize}px`;
+  bloom.style.height = `${baseSize}px`;
+  bloom.style.setProperty("--bloom-scale", scale.toFixed(2));
+  bloom.style.animationDelay = `${delay}ms`;
+  bloom.style.animationDuration = `${duration}s`;
 
-  return petal;
+  return bloom;
+}
+
+function createInvitationSparkle(index, origin) {
+  const sparkle = document.createElement("span");
+  sparkle.className = "invitation-transition__sparkle";
+  sparkle.setAttribute("aria-hidden", "true");
+
+  const angle = (Math.PI * 2 * index) / INVITATION_SPARKLE_COUNT;
+  const distance = 36 + Math.random() * 88;
+  const driftX = Math.cos(angle) * distance;
+  const driftY = -30 - Math.random() * 100 + Math.sin(angle) * 20;
+  const size = 5 + Math.random() * 6;
+  const duration = 1 + Math.random() * 0.4;
+  const delay = 70 + index * 26;
+
+  sparkle.style.left = `${origin.x}px`;
+  sparkle.style.top = `${origin.y}px`;
+  sparkle.style.width = `${size}px`;
+  sparkle.style.height = `${size}px`;
+  sparkle.style.setProperty("--sparkle-x", `${driftX}px`);
+  sparkle.style.setProperty("--sparkle-y", `${driftY}px`);
+  sparkle.style.animationDelay = `${delay}ms`;
+  sparkle.style.animationDuration = `${duration}s`;
+
+  return sparkle;
 }
 
 function launchInvitationTransition(triggerElement) {
@@ -236,7 +242,7 @@ function launchInvitationTransition(triggerElement) {
   }
 
   const transitionBounds = invitationTransition.getBoundingClientRect();
-  const triggerBounds = (triggerElement || invitationTrigger)?.getBoundingClientRect();
+  const origin = getTransitionOrigin(triggerElement, transitionBounds);
 
   invitationTransition.replaceChildren();
   invitationTransition.hidden = false;
@@ -244,10 +250,12 @@ function launchInvitationTransition(triggerElement) {
   void invitationTransition.offsetWidth;
   invitationTransition.classList.add("is-active");
 
-  for (let index = 0; index < INVITATION_PETAL_COUNT; index += 1) {
-    const progress = index / INVITATION_PETAL_COUNT;
-    const borderPoint = getButtonBorderPoint(triggerBounds, transitionBounds, progress);
-    invitationTransition.appendChild(createInvitationPetal(index, borderPoint.x, borderPoint.y));
+  for (let index = 0; index < INVITATION_BLOOM_COUNT; index += 1) {
+    invitationTransition.appendChild(createInvitationBloom(index, origin));
+  }
+
+  for (let index = 0; index < INVITATION_SPARKLE_COUNT; index += 1) {
+    invitationTransition.appendChild(createInvitationSparkle(index, origin));
   }
 
   window.setTimeout(() => {
