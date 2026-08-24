@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20260824n" />
+    <link rel="stylesheet" href="styles.css?v=20260824o" />
   </head>
   <body class="details-page">
     <div class="petal-shower" id="petal-shower" aria-hidden="true"></div>
@@ -228,19 +228,59 @@
             <p class="section-heading__label">Photo Moments</p>
             <h2>Memories We Love</h2>
           </div>
-          <div class="gallery__grid">
-            <figure class="gallery__item gallery__item--tall gallery__item--feature">
-              <img class="gallery__image" src="gallery-2.jpeg" alt="The couple smiling together in front of a flower backdrop" loading="lazy" decoding="async" />
-              <figcaption class="gallery__label">Forever Begins</figcaption>
-            </figure>
-            <figure class="gallery__item gallery__item--side gallery__item--soft-smiles">
-              <img class="gallery__image" src="gallery-3.jpeg" alt="The couple holding sparklers and smiling at each other" loading="lazy" decoding="async" />
-              <figcaption class="gallery__label">Soft Smiles</figcaption>
-            </figure>
-            <figure class="gallery__item gallery__item--side gallery__item--new-chapter">
-              <img class="gallery__image" src="gallery-4.jpeg" alt="A proposal moment captured beneath glowing lights and flowers" loading="lazy" decoding="async" />
-              <figcaption class="gallery__label">A New Chapter</figcaption>
-            </figure>
+          <div class="gallery-slider" data-gallery-slider>
+            <button class="gallery-slider__control gallery-slider__control--prev" type="button" aria-label="Previous photo" data-gallery-prev>
+              <span aria-hidden="true">‹</span>
+            </button>
+            <div class="gallery-slider__viewport">
+              <div class="gallery-slider__track" data-gallery-track>
+                <figure class="gallery-slide is-active">
+                  <img class="gallery-slide__image" src="IMG_3299.jpeg" alt="The couple smiling together while holding sparklers" loading="lazy" decoding="async" />
+                  <figcaption class="gallery-slide__caption">Sparklers and smiles</figcaption>
+                </figure>
+                <figure class="gallery-slide">
+                  <img class="gallery-slide__image" src="IMG_3341.jpeg" alt="A black and white portrait of the couple by a glowing palm tree" loading="lazy" decoding="async" />
+                  <figcaption class="gallery-slide__caption">A quiet little glow</figcaption>
+                </figure>
+                <figure class="gallery-slide">
+                  <img class="gallery-slide__image" src="IMG_3338 (1).jpeg" alt="The couple holding hands in front of a flower backdrop" loading="lazy" decoding="async" />
+                  <figcaption class="gallery-slide__caption">Hand in hand</figcaption>
+                </figure>
+                <figure class="gallery-slide">
+                  <img class="gallery-slide__image" src="IMG_3337.jpeg" alt="The couple laughing together in front of a flower wall" loading="lazy" decoding="async" />
+                  <figcaption class="gallery-slide__caption">Looking up together</figcaption>
+                </figure>
+                <figure class="gallery-slide">
+                  <img class="gallery-slide__image" src="IMG_3297.jpeg" alt="A close-up of the engagement ring being placed on a finger" loading="lazy" decoding="async" />
+                  <figcaption class="gallery-slide__caption">The yes that changed everything</figcaption>
+                </figure>
+                <figure class="gallery-slide">
+                  <img class="gallery-slide__image" src="IMG_2265.jpeg" alt="The couple embracing with flowers between them" loading="lazy" decoding="async" />
+                  <figcaption class="gallery-slide__caption">Wrapped in the moment</figcaption>
+                </figure>
+                <figure class="gallery-slide">
+                  <img class="gallery-slide__image" src="IMG_2263.jpeg" alt="A proposal moment captured under glowing lights" loading="lazy" decoding="async" />
+                  <figcaption class="gallery-slide__caption">Forever begins here</figcaption>
+                </figure>
+                <figure class="gallery-slide">
+                  <img class="gallery-slide__image" src="IMG_2266.jpeg" alt="A black and white embrace between the couple" loading="lazy" decoding="async" />
+                  <figcaption class="gallery-slide__caption">Safe in your arms</figcaption>
+                </figure>
+              </div>
+            </div>
+            <button class="gallery-slider__control gallery-slider__control--next" type="button" aria-label="Next photo" data-gallery-next>
+              <span aria-hidden="true">›</span>
+            </button>
+            <div class="gallery-slider__dots" aria-label="Slideshow navigation">
+              <button class="gallery-slider__dot is-active" type="button" aria-label="Go to photo 1" aria-current="true" data-gallery-dot="0"></button>
+              <button class="gallery-slider__dot" type="button" aria-label="Go to photo 2" data-gallery-dot="1"></button>
+              <button class="gallery-slider__dot" type="button" aria-label="Go to photo 3" data-gallery-dot="2"></button>
+              <button class="gallery-slider__dot" type="button" aria-label="Go to photo 4" data-gallery-dot="3"></button>
+              <button class="gallery-slider__dot" type="button" aria-label="Go to photo 5" data-gallery-dot="4"></button>
+              <button class="gallery-slider__dot" type="button" aria-label="Go to photo 6" data-gallery-dot="5"></button>
+              <button class="gallery-slider__dot" type="button" aria-label="Go to photo 7" data-gallery-dot="6"></button>
+              <button class="gallery-slider__dot" type="button" aria-label="Go to photo 8" data-gallery-dot="7"></button>
+            </div>
           </div>
         </section>
 
@@ -310,6 +350,6 @@
       <p class="site-footer__text">Created with <span class="site-footer__heart" aria-hidden="true"></span> by Kaveesha</p>
     </footer>
 
-    <script src="script.js?v=20260824n"></script>
+    <script src="script.js?v=20260824o"></script>
   </body>
 </html>

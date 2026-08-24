@@ -29,6 +29,7 @@ const guestLinkButton = document.querySelector("#copy-guest-link");
 const guestLinkStatus = document.querySelector("#guest-link-status");
 const guestLinkTool = document.querySelector("#guest-link-tool");
 const guestEditorLink = document.querySelector("#open-guest-editor");
+const gallerySlider = document.querySelector("[data-gallery-slider]");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const DEFAULT_GUEST_NAME = "Your Name Here";
 const EDIT_MODE_PARAM = "edit";
@@ -777,6 +778,91 @@ function setupWeddingMusic() {
   }
 }
 
+function setupGallerySlider() {
+  if (!gallerySlider) {
+    return;
+  }
+
+  const track = gallerySlider.querySelector("[data-gallery-track]");
+  const slides = Array.from(gallerySlider.querySelectorAll(".gallery-slide"));
+  const dots = Array.from(gallerySlider.querySelectorAll("[data-gallery-dot]"));
+  const prevButton = gallerySlider.querySelector("[data-gallery-prev]");
+  const nextButton = gallerySlider.querySelector("[data-gallery-next]");
+
+  if (!track || slides.length === 0) {
+    return;
+  }
+
+  let currentIndex = 0;
+  let autoplayId = null;
+
+  const renderSlide = (nextIndex) => {
+    currentIndex = (nextIndex + slides.length) % slides.length;
+    track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+    slides.forEach((slide, index) => {
+      slide.classList.toggle("is-active", index === currentIndex);
+    });
+
+    dots.forEach((dot, index) => {
+      const isActive = index === currentIndex;
+      dot.classList.toggle("is-active", isActive);
+      dot.setAttribute("aria-current", isActive ? "true" : "false");
+    });
+  };
+
+  const stopAutoplay = () => {
+    if (autoplayId) {
+      window.clearInterval(autoplayId);
+      autoplayId = null;
+    }
+  };
+
+  const startAutoplay = () => {
+    if (prefersReducedMotion || autoplayId || slides.length < 2) {
+      return;
+    }
+
+    autoplayId = window.setInterval(() => {
+      renderSlide(currentIndex + 1);
+    }, 4200);
+  };
+
+  prevButton?.addEventListener("click", () => {
+    renderSlide(currentIndex - 1);
+    stopAutoplay();
+    startAutoplay();
+  });
+
+  nextButton?.addEventListener("click", () => {
+    renderSlide(currentIndex + 1);
+    stopAutoplay();
+    startAutoplay();
+  });
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener("click", () => {
+      renderSlide(index);
+      stopAutoplay();
+      startAutoplay();
+    });
+  });
+
+  gallerySlider.addEventListener("pointerenter", stopAutoplay);
+  gallerySlider.addEventListener("pointerleave", startAutoplay);
+  gallerySlider.addEventListener("focusin", stopAutoplay);
+  gallerySlider.addEventListener("focusout", (event) => {
+    if (event.relatedTarget instanceof Node && gallerySlider.contains(event.relatedTarget)) {
+      return;
+    }
+
+    startAutoplay();
+  });
+
+  renderSlide(0);
+  startAutoplay();
+}
+
 updateCountdown();
 setupScrollReveal();
 setupNavSpy();
@@ -787,6 +873,7 @@ setupGuestInvitation();
 setupRsvpForm();
 setupPetalShower();
 setupWeddingMusic();
+setupGallerySlider();
 setActiveNavLink("top");
 
 if (countdownElements.days) {
