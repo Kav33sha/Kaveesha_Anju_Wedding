@@ -2935,6 +2935,10 @@ button.button:disabled {
 }
 
 @media (max-width: 720px) {
+  .gallery-slider {
+    width: 100%;
+  }
+
   .gallery-slider__control {
     width: 44px;
     height: 44px;
@@ -2949,7 +2953,7 @@ button.button:disabled {
   }
 
   .gallery-slide {
-    height: 140px;
+    height: min(62vh, 420px);
   }
 }
 
