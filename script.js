@@ -161,13 +161,7 @@ function setupInvitationTransition() {
     }
 
     sessionStorage.setItem(MUSIC_AUTOPLAY_KEY, "true");
-    launchInvitationTransition(invitationTrigger);
-    invitationTrigger.setAttribute("aria-disabled", "true");
-    invitationTrigger.style.pointerEvents = "none";
-
-    window.setTimeout(() => {
-      window.location.href = destination.toString();
-    }, INVITATION_OPEN_DELAY_MS);
+    window.location.href = destination.toString();
   });
 }
 

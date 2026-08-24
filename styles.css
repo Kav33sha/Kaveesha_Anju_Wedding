@@ -2823,6 +2823,8 @@ button.button:disabled {
   position: relative;
   display: grid;
   gap: 18px;
+  width: min(100%, 880px);
+  margin: 0 auto;
 }
 
 .gallery-slider__viewport {
@@ -2846,7 +2848,7 @@ button.button:disabled {
   flex: 0 0 100%;
   min-width: 100%;
   margin: 0;
-  min-height: clamp(420px, 72vw, 720px);
+  min-height: clamp(320px, 52vw, 560px);
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -2965,7 +2967,7 @@ button.button:disabled {
   }
 
   .gallery-slide {
-    min-height: 380px;
+    min-height: 300px;
   }
 
   .gallery-slide__caption {
