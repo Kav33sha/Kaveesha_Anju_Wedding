@@ -577,11 +577,11 @@ main {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(11, 46, 31, 0.76) 0%, rgba(13, 52, 34, 0.38) 36%, rgba(16, 68, 46, 0.14) 58%, rgba(210, 255, 232, 0.18) 100%),
-    linear-gradient(180deg, rgba(245, 255, 249, 0.08), rgba(11, 55, 37, 0.28)),
+    linear-gradient(90deg, rgba(11, 46, 31, 0.56) 0%, rgba(13, 52, 34, 0.24) 34%, rgba(16, 68, 46, 0.08) 58%, rgba(210, 255, 232, 0.14) 100%),
+    linear-gradient(180deg, rgba(245, 255, 249, 0.05), rgba(11, 55, 37, 0.18)),
     radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.18), transparent 14%),
     radial-gradient(circle at 82% 22%, rgba(223, 255, 234, 0.14), transparent 13%),
-    url("landing-proposal-art.jpeg") center center / contain no-repeat;
+    url("landing-proposal-art.jpeg") center top / auto calc(100% - 24px) no-repeat;
   z-index: 0;
   transform: scale(1);
   filter: saturate(1.03) contrast(1.02);
@@ -671,13 +671,13 @@ main {
 
 .hero__content {
   position: relative;
-  width: min(100%, 560px);
+  width: min(100%, 520px);
   padding: 38px 28px 34px;
   text-align: center;
   color: #fffef8;
   background:
-    linear-gradient(160deg, rgba(9, 58, 39, 0.76), rgba(15, 42, 31, 0.72)),
-    radial-gradient(circle at top, rgba(243, 221, 173, 0.14), transparent 38%);
+    linear-gradient(160deg, rgba(9, 58, 39, 0.64), rgba(15, 42, 31, 0.58)),
+    radial-gradient(circle at top, rgba(243, 221, 173, 0.12), transparent 38%);
   border: 1px solid rgba(255, 248, 225, 0.32);
   backdrop-filter: blur(10px);
   box-shadow:
@@ -812,6 +812,7 @@ main {
   .hero__content--cover {
     justify-self: center;
     margin-left: 0;
+    margin-top: clamp(180px, 28vh, 300px);
     text-align: center;
   }
 
