@@ -4,7 +4,7 @@ const PETAL_COUNT = 8;
 const PETAL_INTERVAL_MS = 900;
 const MUSIC_AUTOPLAY_KEY = "weddingMusicAutoplay";
 const MUSIC_STOPPED_KEY = "weddingMusicStopped";
-const INVITATION_PETAL_COUNT = 18;
+const INVITATION_PETAL_COUNT = 30;
 const INVITATION_OPEN_DELAY_MS = 1500;
 const PETAL_START_STAGGER_MS = 260;
 const animatedSections = document.querySelectorAll(".section");
@@ -159,7 +159,7 @@ function setupInvitationTransition() {
     }
 
     sessionStorage.setItem(MUSIC_AUTOPLAY_KEY, "true");
-    launchInvitationTransition();
+    launchInvitationTransition(invitationTrigger);
     invitationTrigger.setAttribute("aria-disabled", "true");
     invitationTrigger.style.pointerEvents = "none";
 
@@ -169,36 +169,47 @@ function setupInvitationTransition() {
   });
 }
 
-function createInvitationPetal(index) {
+function createInvitationPetal(index, originX, originY) {
   const petal = document.createElement("span");
   petal.className = "invitation-transition__petal";
   petal.setAttribute("aria-hidden", "true");
 
-  const left = 4 + Math.random() * 92;
-  const size = 16 + Math.random() * 18;
-  const drift = -120 + Math.random() * 240;
-  const duration = 1.5 + Math.random() * 0.65;
-  const delay = index * 55;
-  const rotate = -35 + Math.random() * 70;
-  const hue = 200 + Math.random() * 18;
+  const size = 16 + Math.random() * 22;
+  const burstX = -180 + Math.random() * 360;
+  const burstY = -250 - Math.random() * 130;
+  const duration = 1.35 + Math.random() * 0.55;
+  const delay = index * 28;
+  const rotate = -45 + Math.random() * 90;
+  const hue = 202 + Math.random() * 12;
 
-  petal.style.left = `${left}%`;
+  petal.style.left = `${originX}px`;
+  petal.style.top = `${originY}px`;
   petal.style.width = `${size}px`;
   petal.style.height = `${size * 1.55}px`;
-  petal.style.setProperty("--petal-drift", `${drift}px`);
+  petal.style.setProperty("--petal-burst-x", `${burstX}px`);
+  petal.style.setProperty("--petal-burst-y", `${burstY}px`);
   petal.style.setProperty("--petal-rotate", `${rotate}deg`);
   petal.style.setProperty("--petal-hue", `${hue}deg`);
   petal.style.animationDelay = `${delay}ms`;
   petal.style.animationDuration = `${duration}s`;
-  petal.style.opacity = `${0.65 + Math.random() * 0.25}`;
+  petal.style.opacity = `${0.78 + Math.random() * 0.18}`;
 
   return petal;
 }
 
-function launchInvitationTransition() {
+function launchInvitationTransition(triggerElement) {
   if (!invitationTransition || prefersReducedMotion) {
     return;
   }
+
+  const transitionBounds = invitationTransition.getBoundingClientRect();
+  const triggerBounds = (triggerElement || invitationTrigger)?.getBoundingClientRect();
+  const originX = triggerBounds
+    ? triggerBounds.left - transitionBounds.left + triggerBounds.width / 2
+    : transitionBounds.width / 2;
+  const originY = triggerBounds
+    ? triggerBounds.top - transitionBounds.top + triggerBounds.height / 2
+    : transitionBounds.height * 0.72;
 
   invitationTransition.replaceChildren();
   invitationTransition.hidden = false;
@@ -207,7 +218,7 @@ function launchInvitationTransition() {
   invitationTransition.classList.add("is-active");
 
   for (let index = 0; index < INVITATION_PETAL_COUNT; index += 1) {
-    invitationTransition.appendChild(createInvitationPetal(index));
+    invitationTransition.appendChild(createInvitationPetal(index, originX, originY));
   }
 
   window.setTimeout(() => {

@@ -78,9 +78,10 @@ body::before {
   overflow: hidden;
   z-index: 4;
   background:
-    radial-gradient(circle at 20% 18%, rgba(167, 219, 255, 0.22), transparent 34%),
-    radial-gradient(circle at 78% 16%, rgba(103, 182, 255, 0.2), transparent 30%),
-    linear-gradient(180deg, rgba(232, 246, 255, 0.06), rgba(128, 193, 245, 0.2));
+    radial-gradient(circle at 50% 78%, rgba(74, 164, 255, 0.18), transparent 18%),
+    radial-gradient(circle at 20% 18%, rgba(164, 220, 255, 0.24), transparent 34%),
+    radial-gradient(circle at 78% 16%, rgba(63, 152, 255, 0.22), transparent 30%),
+    linear-gradient(180deg, rgba(228, 244, 255, 0.08), rgba(99, 176, 245, 0.22));
 }
 
 .invitation-transition[hidden] {
@@ -93,18 +94,17 @@ body::before {
 
 .invitation-transition__petal {
   position: absolute;
-  top: -12%;
   display: block;
   border-radius: 68% 32% 62% 38%;
   opacity: 0;
-  transform: rotate(var(--petal-rotate, 0deg));
+  transform: translate(-50%, -50%) rotate(var(--petal-rotate, 0deg));
   background:
-    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.22) 36%, transparent 52%),
-    linear-gradient(180deg, hsl(var(--petal-hue, 206deg) 85% 92%), hsl(calc(var(--petal-hue, 206deg) + 8deg) 78% 73%));
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.28) 36%, transparent 52%),
+    linear-gradient(180deg, hsl(var(--petal-hue, 206deg) 92% 94%), hsl(calc(var(--petal-hue, 206deg) + 10deg) 86% 67%));
   box-shadow:
-    0 0 12px rgba(167, 219, 255, 0.28),
-    0 14px 18px rgba(44, 104, 158, 0.16);
-  animation: invitationPetalFall 1.9s linear forwards;
+    0 0 14px rgba(108, 191, 255, 0.36),
+    0 14px 18px rgba(25, 94, 158, 0.2);
+  animation: invitationPetalBurst 1.9s cubic-bezier(0.18, 0.78, 0.24, 1) forwards;
 }
 
 .invitation-transition__petal::before {
@@ -3005,38 +3005,43 @@ button.button:disabled {
   }
 }
 
-@keyframes invitationPetalFall {
+@keyframes invitationPetalBurst {
   0% {
     opacity: 0;
-    transform: translate3d(0, -16vh, 0) rotate(var(--petal-rotate, 0deg)) scale(0.82);
+    transform: translate(-50%, -50%) translate3d(0, 0, 0) rotate(var(--petal-rotate, 0deg)) scale(0.3);
   }
 
-  15% {
+  12% {
     opacity: 0.98;
+    transform: translate(-50%, -50%) translate3d(calc(var(--petal-burst-x, 0px) * 0.14), calc(var(--petal-burst-y, 0px) * 0.16), 0)
+      rotate(calc(var(--petal-rotate, 0deg) + 36deg)) scale(0.84);
   }
 
-  32% {
+  34% {
     opacity: 0.96;
     transform:
-      translate3d(calc(var(--petal-drift, 0px) * 0.18), 28vh, 0)
-      rotate(calc(var(--petal-rotate, 0deg) + 92deg))
-      scale(1);
+      translate(-50%, -50%)
+      translate3d(calc(var(--petal-burst-x, 0px) * 0.52), calc(var(--petal-burst-y, 0px) * 0.48), 0)
+      rotate(calc(var(--petal-rotate, 0deg) + 138deg))
+      scale(1.04);
   }
 
-  58% {
-    opacity: 0.9;
+  68% {
+    opacity: 0.92;
     transform:
-      translate3d(calc(var(--petal-drift, 0px) * -0.22), 56vh, 0)
-      rotate(calc(var(--petal-rotate, 0deg) + 196deg))
+      translate(-50%, -50%)
+      translate3d(calc(var(--petal-burst-x, 0px) * 0.86), calc(var(--petal-burst-y, 0px) * 0.82), 0)
+      rotate(calc(var(--petal-rotate, 0deg) + 246deg))
       scale(0.96);
   }
 
   100% {
     opacity: 0;
     transform:
-      translate3d(var(--petal-drift, 0px), 112vh, 0)
+      translate(-50%, -50%)
+      translate3d(var(--petal-burst-x, 0px), var(--petal-burst-y, 0px), 0)
       rotate(calc(var(--petal-rotate, 0deg) + 320deg))
-      scale(0.88);
+      scale(0.78);
   }
 }
 
