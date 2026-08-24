@@ -581,7 +581,7 @@ main {
     linear-gradient(180deg, rgba(245, 255, 249, 0.08), rgba(11, 55, 37, 0.28)),
     radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.18), transparent 14%),
     radial-gradient(circle at 82% 22%, rgba(223, 255, 234, 0.14), transparent 13%),
-    url("landing-proposal-art.jpeg") center center / contain no-repeat;
+    url("landing-couple-photo.jpeg") center 22% / cover no-repeat;
   z-index: 0;
   transform: scale(1);
   filter: saturate(1.03) contrast(1.02);
