@@ -2848,7 +2848,7 @@ button.button:disabled {
   flex: 0 0 100%;
   min-width: 100%;
   margin: 0;
-  min-height: clamp(72px, 10vw, 110px);
+  height: clamp(140px, 18vw, 220px);
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -2949,7 +2949,7 @@ button.button:disabled {
   }
 
   .gallery-slide {
-    min-height: 72px;
+    height: 140px;
   }
 }
 
