@@ -2823,13 +2823,14 @@ button.button:disabled {
   position: relative;
   display: grid;
   gap: 18px;
-  width: min(100%, 560px);
+  width: min(100%, 520px);
   margin: 0 auto;
 }
 
 .gallery-slider__viewport {
   overflow: hidden;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 3 / 4;
+  max-height: min(78vh, 680px);
   border-radius: 30px;
   border: 1px solid rgba(255, 255, 255, 0.22);
   background:
@@ -2873,6 +2874,7 @@ button.button:disabled {
   height: 100%;
   object-fit: contain;
   object-position: center center;
+  padding: 10px;
   background: rgba(11, 26, 19, 0.2);
 }
 
@@ -2938,7 +2940,7 @@ button.button:disabled {
 
 @media (max-width: 720px) {
   .gallery-slider {
-    width: min(100%, 430px);
+    width: min(100%, 360px);
   }
 
   .gallery-slider__control {
@@ -2956,6 +2958,7 @@ button.button:disabled {
 
   .gallery-slider__viewport {
     aspect-ratio: 3 / 4;
+    max-height: min(62vh, 480px);
   }
 }
 
