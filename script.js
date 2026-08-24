@@ -4,7 +4,7 @@ const PETAL_COUNT = 8;
 const PETAL_INTERVAL_MS = 900;
 const MUSIC_AUTOPLAY_KEY = "weddingMusicAutoplay";
 const MUSIC_STOPPED_KEY = "weddingMusicStopped";
-const HEART_BURST_COUNT = 12;
+const INVITATION_PETAL_COUNT = 18;
 const INVITATION_OPEN_DELAY_MS = 1500;
 const PETAL_START_STAGGER_MS = 260;
 const animatedSections = document.querySelectorAll(".section");
@@ -21,7 +21,7 @@ const rsvpStatus = document.querySelector("#rsvp-status");
 const petalShower = document.querySelector("#petal-shower");
 const weddingMusic = document.querySelector("#wedding-music");
 const musicToggle = document.querySelector("#music-toggle");
-const heartTransition = document.querySelector("#heart-transition");
+const invitationTransition = document.querySelector("#invitation-transition");
 const guestNameDisplay = document.querySelector("#personalized-guest-name");
 const guestNameInput = document.querySelector("#guest-link-name");
 const guestLinkButton = document.querySelector("#copy-guest-link");
@@ -159,7 +159,7 @@ function setupInvitationTransition() {
     }
 
     sessionStorage.setItem(MUSIC_AUTOPLAY_KEY, "true");
-    launchHeartTransition();
+    launchInvitationTransition();
     invitationTrigger.setAttribute("aria-disabled", "true");
     invitationTrigger.style.pointerEvents = "none";
 
@@ -167,6 +167,54 @@ function setupInvitationTransition() {
       window.location.href = destination.toString();
     }, INVITATION_OPEN_DELAY_MS);
   });
+}
+
+function createInvitationPetal(index) {
+  const petal = document.createElement("span");
+  petal.className = "invitation-transition__petal";
+  petal.setAttribute("aria-hidden", "true");
+
+  const left = 4 + Math.random() * 92;
+  const size = 16 + Math.random() * 18;
+  const drift = -120 + Math.random() * 240;
+  const duration = 1.5 + Math.random() * 0.65;
+  const delay = index * 55;
+  const rotate = -35 + Math.random() * 70;
+  const hue = 200 + Math.random() * 18;
+
+  petal.style.left = `${left}%`;
+  petal.style.width = `${size}px`;
+  petal.style.height = `${size * 1.55}px`;
+  petal.style.setProperty("--petal-drift", `${drift}px`);
+  petal.style.setProperty("--petal-rotate", `${rotate}deg`);
+  petal.style.setProperty("--petal-hue", `${hue}deg`);
+  petal.style.animationDelay = `${delay}ms`;
+  petal.style.animationDuration = `${duration}s`;
+  petal.style.opacity = `${0.65 + Math.random() * 0.25}`;
+
+  return petal;
+}
+
+function launchInvitationTransition() {
+  if (!invitationTransition || prefersReducedMotion) {
+    return;
+  }
+
+  invitationTransition.replaceChildren();
+  invitationTransition.hidden = false;
+  invitationTransition.classList.remove("is-active");
+  void invitationTransition.offsetWidth;
+  invitationTransition.classList.add("is-active");
+
+  for (let index = 0; index < INVITATION_PETAL_COUNT; index += 1) {
+    invitationTransition.appendChild(createInvitationPetal(index));
+  }
+
+  window.setTimeout(() => {
+    invitationTransition.classList.remove("is-active");
+    invitationTransition.hidden = true;
+    invitationTransition.replaceChildren();
+  }, INVITATION_OPEN_DELAY_MS + 120);
 }
 
 function createHeart(index) {
