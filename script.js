@@ -169,12 +169,45 @@ function setupInvitationTransition() {
   });
 }
 
+function getButtonBorderPoint(triggerBounds, transitionBounds, progress) {
+  if (!triggerBounds) {
+    return {
+      x: transitionBounds.width / 2,
+      y: transitionBounds.height * 0.72,
+    };
+  }
+
+  const localLeft = triggerBounds.left - transitionBounds.left;
+  const localTop = triggerBounds.top - transitionBounds.top;
+  const width = triggerBounds.width;
+  const height = triggerBounds.height;
+  const perimeter = width * 2 + height * 2;
+  const distance = progress * perimeter;
+
+  if (distance <= width) {
+    return { x: localLeft + distance, y: localTop };
+  }
+
+  if (distance <= width + height) {
+    return { x: localLeft + width, y: localTop + (distance - width) };
+  }
+
+  if (distance <= width * 2 + height) {
+    return { x: localLeft + width - (distance - width - height), y: localTop + height };
+  }
+
+  return {
+    x: localLeft,
+    y: localTop + height - (distance - width * 2 - height),
+  };
+}
+
 function createInvitationPetal(index, originX, originY) {
   const petal = document.createElement("span");
   petal.className = "invitation-transition__petal";
   petal.setAttribute("aria-hidden", "true");
 
-  const size = 16 + Math.random() * 22;
+  const size = 9 + Math.random() * 10;
   const burstX = -180 + Math.random() * 360;
   const burstY = -250 - Math.random() * 130;
   const duration = 1.35 + Math.random() * 0.55;
@@ -204,12 +237,6 @@ function launchInvitationTransition(triggerElement) {
 
   const transitionBounds = invitationTransition.getBoundingClientRect();
   const triggerBounds = (triggerElement || invitationTrigger)?.getBoundingClientRect();
-  const originX = triggerBounds
-    ? triggerBounds.left - transitionBounds.left + triggerBounds.width / 2
-    : transitionBounds.width / 2;
-  const originY = triggerBounds
-    ? triggerBounds.top - transitionBounds.top + triggerBounds.height / 2
-    : transitionBounds.height * 0.72;
 
   invitationTransition.replaceChildren();
   invitationTransition.hidden = false;
@@ -218,7 +245,9 @@ function launchInvitationTransition(triggerElement) {
   invitationTransition.classList.add("is-active");
 
   for (let index = 0; index < INVITATION_PETAL_COUNT; index += 1) {
-    invitationTransition.appendChild(createInvitationPetal(index, originX, originY));
+    const progress = index / INVITATION_PETAL_COUNT;
+    const borderPoint = getButtonBorderPoint(triggerBounds, transitionBounds, progress);
+    invitationTransition.appendChild(createInvitationPetal(index, borderPoint.x, borderPoint.y));
   }
 
   window.setTimeout(() => {
