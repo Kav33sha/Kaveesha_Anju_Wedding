@@ -2908,11 +2908,11 @@ button.button:disabled {
 }
 
 .gallery-slider__control--prev {
-  left: 18px;
+  left: -26px;
 }
 
 .gallery-slider__control--next {
-  right: 18px;
+  right: -26px;
 }
 
 .gallery-slider__control span {
@@ -2958,11 +2958,11 @@ button.button:disabled {
   }
 
   .gallery-slider__control--prev {
-    left: 12px;
+    left: -12px;
   }
 
   .gallery-slider__control--next {
-    right: 12px;
+    right: -12px;
   }
 
   .gallery-slider__viewport {
