@@ -19,6 +19,8 @@ const countdownElements = {
 const invitationTrigger = document.querySelector(".view-invitation");
 const rsvpForm = document.querySelector("#rsvp-form");
 const rsvpStatus = document.querySelector("#rsvp-status");
+const rsvpNameInput = document.querySelector("#guest-name");
+const rsvpPhoneInput = document.querySelector("#guest-phone");
 const petalShower = document.querySelector("#petal-shower");
 const weddingMusic = document.querySelector("#wedding-music");
 const musicToggle = document.querySelector("#music-toggle");
@@ -39,6 +41,9 @@ const LEGACY_GUEST_PARAM = "guest";
 const GUEST_TOKEN_KEY = "KaveeshaAnjuWeddingInvite2026";
 let petalIntervalId = null;
 let hasStartedPetalShower = false;
+
+const RSVP_NAME_ALLOWED_CHARACTERS = /[^\p{L}\s'.-]/gu;
+const RSVP_PHONE_ALLOWED_CHARACTERS = /\D/g;
 
 function updateCountdown() {
   if (!countdownElements.days) {
@@ -504,14 +509,55 @@ function setupRsvpForm() {
     return;
   }
 
+  const sanitizeRsvpName = () => {
+    if (!(rsvpNameInput instanceof HTMLInputElement)) {
+      return "";
+    }
+
+    const sanitizedValue = rsvpNameInput.value.replace(RSVP_NAME_ALLOWED_CHARACTERS, "");
+
+    if (rsvpNameInput.value !== sanitizedValue) {
+      rsvpNameInput.value = sanitizedValue;
+    }
+
+    rsvpNameInput.setCustomValidity(sanitizedValue.trim() ? "" : "Please enter a valid name using letters only.");
+    return sanitizedValue.trim();
+  };
+
+  const sanitizeRsvpPhone = () => {
+    if (!(rsvpPhoneInput instanceof HTMLInputElement)) {
+      return "";
+    }
+
+    const sanitizedValue = rsvpPhoneInput.value.replace(RSVP_PHONE_ALLOWED_CHARACTERS, "");
+
+    if (rsvpPhoneInput.value !== sanitizedValue) {
+      rsvpPhoneInput.value = sanitizedValue;
+    }
+
+    rsvpPhoneInput.setCustomValidity("");
+    return sanitizedValue;
+  };
+
+  rsvpNameInput?.addEventListener("input", sanitizeRsvpName);
+  rsvpPhoneInput?.addEventListener("input", sanitizeRsvpPhone);
+
   rsvpForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
+    const sanitizedName = sanitizeRsvpName();
+    const sanitizedPhone = sanitizeRsvpPhone();
+
+    if (!sanitizedName) {
+      rsvpNameInput?.reportValidity();
+      return;
+    }
+
     const formData = new FormData(rsvpForm);
     const payload = {
-      name: String(formData.get("name") || "").trim(),
+      name: sanitizedName,
       attendance: String(formData.get("attendance") || "").trim(),
-      phone: String(formData.get("phone") || "").trim(),
+      phone: sanitizedPhone,
       message: String(formData.get("message") || "").trim(),
       submittedAt: new Date().toISOString(),
     };
