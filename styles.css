@@ -2824,6 +2824,8 @@ button.button:disabled {
   display: grid;
   gap: 18px;
   width: min(100%, 520px);
+  box-sizing: border-box;
+  padding-inline: 72px;
   margin: 0 auto;
 }
 
@@ -2847,6 +2849,7 @@ button.button:disabled {
 }
 
 .gallery-slide {
+  box-sizing: border-box;
   position: relative;
   flex: 0 0 100%;
   min-width: 100%;
@@ -2908,11 +2911,11 @@ button.button:disabled {
 }
 
 .gallery-slider__control--prev {
-  left: -26px;
+  left: 10px;
 }
 
 .gallery-slider__control--next {
-  right: -26px;
+  right: 10px;
 }
 
 .gallery-slider__control span {
@@ -2950,6 +2953,7 @@ button.button:disabled {
 
   .gallery-slider {
     width: min(100%, 342px);
+    padding-inline: 52px;
   }
 
   .gallery-slider__control {
@@ -2958,11 +2962,11 @@ button.button:disabled {
   }
 
   .gallery-slider__control--prev {
-    left: -12px;
+    left: 4px;
   }
 
   .gallery-slider__control--next {
-    right: -12px;
+    right: 4px;
   }
 
   .gallery-slider__viewport {
