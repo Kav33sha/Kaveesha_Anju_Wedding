@@ -2862,7 +2862,8 @@ button.button:disabled {
 .gallery-slide::before {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: 10px;
+  border-radius: 22px;
   background:
     linear-gradient(180deg, rgba(21, 40, 29, 0.08), rgba(21, 40, 29, 0.42)),
     radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.22), transparent 18%),
@@ -2875,6 +2876,7 @@ button.button:disabled {
   display: block;
   width: 100%;
   height: 100%;
+  border-radius: 22px;
   object-fit: contain;
   object-position: center center;
   padding: 0;
@@ -2942,8 +2944,12 @@ button.button:disabled {
 }
 
 @media (max-width: 720px) {
+  .petal-shower {
+    display: none;
+  }
+
   .gallery-slider {
-    width: min(100%, 360px);
+    width: min(100%, 342px);
   }
 
   .gallery-slider__control {
@@ -2961,7 +2967,20 @@ button.button:disabled {
 
   .gallery-slider__viewport {
     aspect-ratio: 3 / 4;
-    max-height: min(62vh, 480px);
+    max-height: min(68vh, 500px);
+  }
+
+  .gallery-slide {
+    padding: 6px;
+  }
+
+  .gallery-slide::before {
+    inset: 6px;
+    border-radius: 20px;
+  }
+
+  .gallery-slide__image {
+    border-radius: 20px;
   }
 }
 
