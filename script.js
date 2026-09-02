@@ -411,11 +411,11 @@ function buildGuestMessage(guestName, guestLink) {
   const greetingName = guestName || "Dear Family";
 
   return [
-    `${greetingName}`,
-    "With heartfelt joy, we invite you to celebrate the beginning of our new journey together.",
+    `${greetingName} 💌`,
+    "With heartfelt joy, we invite you to celebrate the beginning of our new journey together. 💍",
     `Please find our wedding invitation below: ${guestLink}`,
-    "We would be delighted to have you with us as we celebrate this memorable occasion, and we look forward to sharing this joyful day with you.",
-    "With love, Anjalika & Kaveesha",
+    "We would be delighted to have you with us as we celebrate this memorable occasion, and we look forward to sharing this joyful day with you. ✨",
+    "With love,\nAnjalika & Kaveesha 🤍",
   ].join("\n\n");
 }
 
