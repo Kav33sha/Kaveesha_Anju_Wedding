@@ -28,6 +28,7 @@ const invitationTransition = document.querySelector("#invitation-transition");
 const guestNameDisplay = document.querySelector("#personalized-guest-name");
 const guestNameInput = document.querySelector("#guest-link-name");
 const guestLinkButton = document.querySelector("#copy-guest-link");
+const guestMessageButton = document.querySelector("#copy-guest-message");
 const guestLinkStatus = document.querySelector("#guest-link-status");
 const guestLinkTool = document.querySelector("#guest-link-tool");
 const guestEditorLink = document.querySelector("#open-guest-editor");
@@ -405,6 +406,18 @@ function buildGuestLink(guestName) {
   return url.toString();
 }
 
+function buildGuestMessage(guestName, guestLink) {
+  const greetingName = guestName || "Dear Family";
+
+  return [
+    `${greetingName}`,
+    "With heartfelt joy, we invite you to celebrate the beginning of our new journey together.",
+    `Please find our wedding invitation below: ${guestLink}`,
+    "We would be delighted to have you with us as we celebrate this memorable occasion, and we look forward to sharing this joyful day with you.",
+    "With love, Anjalika & Kaveesha",
+  ].join("\n\n");
+}
+
 function updateGuestInvitation(name) {
   if (!guestNameDisplay) {
     return;
@@ -477,6 +490,29 @@ function setupGuestInvitation() {
       );
     } catch (error) {
       setGuestLinkStatus("Link updated in the address bar. Please copy it manually.", "warning");
+    }
+  });
+
+  if (!guestMessageButton) {
+    return;
+  }
+
+  guestMessageButton.addEventListener("click", async () => {
+    const guestName = sanitizeGuestName(guestNameInput ? guestNameInput.value : "");
+    const nextUrl = buildGuestLink(guestName);
+    const message = buildGuestMessage(guestName ? `Dear ${guestName}` : "", nextUrl);
+
+    window.history.replaceState({}, "", nextUrl);
+    updateGuestInvitation(guestName);
+
+    try {
+      await navigator.clipboard.writeText(message);
+      setGuestLinkStatus(
+        guestName ? `Copied full message for ${guestName}.` : "Copied full invitation message.",
+        "success"
+      );
+    } catch (error) {
+      setGuestLinkStatus("Message could not be copied automatically. Please try again.", "warning");
     }
   });
 }
