@@ -1952,6 +1952,35 @@ main {
   color: var(--muted);
 }
 
+.invitation-dedication__message-preview {
+  margin-top: 18px;
+  text-align: left;
+}
+
+.invitation-dedication__preview-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--green);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.invitation-dedication__preview {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 270px;
+  resize: vertical;
+  padding: 16px;
+  border: 1px solid rgba(111, 153, 115, 0.22);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--text);
+  font: inherit;
+  line-height: 1.55;
+}
+
 .invitation-dedication__status {
   min-height: 1.5em;
   font-weight: 700;

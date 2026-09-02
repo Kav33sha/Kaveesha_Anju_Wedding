@@ -29,6 +29,7 @@ const guestNameDisplay = document.querySelector("#personalized-guest-name");
 const guestNameInput = document.querySelector("#guest-link-name");
 const guestLinkButton = document.querySelector("#copy-guest-link");
 const guestMessageButton = document.querySelector("#copy-guest-message");
+const guestMessagePreview = document.querySelector("#guest-message-preview");
 const guestLinkStatus = document.querySelector("#guest-link-status");
 const guestLinkTool = document.querySelector("#guest-link-tool");
 const guestEditorLink = document.querySelector("#open-guest-editor");
@@ -418,6 +419,17 @@ function buildGuestMessage(guestName, guestLink) {
   ].join("\n\n");
 }
 
+function updateGuestMessagePreview(guestName) {
+  if (!guestMessagePreview) {
+    return;
+  }
+
+  guestMessagePreview.value = buildGuestMessage(
+    guestName ? `Dear ${guestName}` : "",
+    buildGuestLink(guestName)
+  );
+}
+
 function updateGuestInvitation(name) {
   if (!guestNameDisplay) {
     return;
@@ -463,10 +475,12 @@ function setupGuestInvitation() {
 
   if (guestNameInput) {
     guestNameInput.value = initialName;
+    updateGuestMessagePreview(initialName);
 
     guestNameInput.addEventListener("input", () => {
       const nextName = sanitizeGuestName(guestNameInput.value);
       updateGuestInvitation(nextName);
+      updateGuestMessagePreview(nextName);
       setGuestLinkStatus(nextName ? "Guest preview updated." : "Guest name cleared.", "info");
     });
   }
