@@ -949,6 +949,7 @@ main {
 
 .split-hero__panel {
   width: min(100%, 600px);
+  aspect-ratio: 1;
   justify-self: center;
   border: 1px solid rgba(0, 163, 108, 0.18);
   border-radius: 30px;
