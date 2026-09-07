@@ -242,41 +242,36 @@
             <p class="section-heading__label">Photo Moments</p>
             <h2>Memories We Love</h2>
           </div>
-          <div class="gallery-slider" data-gallery-slider>
-            <button class="gallery-slider__control gallery-slider__control--prev" type="button" aria-label="Previous photo" data-gallery-prev>
-              <span aria-hidden="true">‹</span>
-            </button>
-            <div class="gallery-slider__viewport">
+          <div class="gallery-slider" data-gallery-slider role="region" aria-roledescription="carousel" aria-label="Memories We Love">
+            <div class="gallery-slider__viewport" tabindex="0" role="button" aria-label="Next photo. Swipe or drag to browse, or use the arrow keys.">
               <div class="gallery-slider__track" data-gallery-track>
                 <figure class="gallery-slide is-active">
-                  <img class="gallery-slide__image" src="IMG_3299-optimized.jpg" alt="The couple smiling together while holding sparklers" loading="lazy" decoding="async" width="1400" height="2100" />
+                  <img class="gallery-slide__image" draggable="false" src="IMG_3299-optimized.jpg" alt="The couple smiling together while holding sparklers" loading="lazy" decoding="async" width="1400" height="2100" />
                 </figure>
                 <figure class="gallery-slide">
-                  <img class="gallery-slide__image" src="IMG_3341-optimized.jpg" alt="A black and white portrait of the couple by a glowing palm tree" loading="lazy" decoding="async" width="1400" height="2100" />
+                  <img class="gallery-slide__image" draggable="false" src="IMG_3341-optimized.jpg" alt="A black and white portrait of the couple by a glowing palm tree" loading="lazy" decoding="async" width="1400" height="2100" />
                 </figure>
                 <figure class="gallery-slide">
-                  <img class="gallery-slide__image" src="IMG_3338-optimized.jpg" alt="The couple holding hands in front of a flower backdrop" loading="lazy" decoding="async" width="1400" height="2100" />
+                  <img class="gallery-slide__image" draggable="false" src="IMG_3338-optimized.jpg" alt="The couple holding hands in front of a flower backdrop" loading="lazy" decoding="async" width="1400" height="2100" />
                 </figure>
                 <figure class="gallery-slide">
-                  <img class="gallery-slide__image" src="IMG_3337-optimized.jpg" alt="The couple laughing together in front of a flower wall" loading="lazy" decoding="async" width="1400" height="2100" />
+                  <img class="gallery-slide__image" draggable="false" src="IMG_3337-optimized.jpg" alt="The couple laughing together in front of a flower wall" loading="lazy" decoding="async" width="1400" height="2100" />
                 </figure>
                 <figure class="gallery-slide">
-                  <img class="gallery-slide__image" src="IMG_3297-optimized.jpg" alt="A close-up of the engagement ring being placed on a finger" loading="lazy" decoding="async" width="1400" height="2100" />
+                  <img class="gallery-slide__image" draggable="false" src="IMG_3297-optimized.jpg" alt="A close-up of the engagement ring being placed on a finger" loading="lazy" decoding="async" width="1400" height="2100" />
                 </figure>
                 <figure class="gallery-slide">
-                  <img class="gallery-slide__image" src="IMG_2265-optimized.jpg" alt="The couple embracing with flowers between them" loading="lazy" decoding="async" width="1400" height="2100" />
+                  <img class="gallery-slide__image" draggable="false" src="IMG_2265-optimized.jpg" alt="The couple embracing with flowers between them" loading="lazy" decoding="async" width="1400" height="2100" />
                 </figure>
                 <figure class="gallery-slide">
-                  <img class="gallery-slide__image" src="IMG_2266-optimized.jpg" alt="A black and white embrace between the couple" loading="lazy" decoding="async" width="1400" height="2100" />
+                  <img class="gallery-slide__image" draggable="false" src="IMG_2266-optimized.jpg" alt="A black and white embrace between the couple" loading="lazy" decoding="async" width="1400" height="2100" />
                 </figure>
                 <figure class="gallery-slide">
-                  <img class="gallery-slide__image" src="IMG_3340-optimized.jpg" alt="The couple sharing a kiss in front of the flower backdrop" loading="lazy" decoding="async" width="1400" height="2100" />
+                  <img class="gallery-slide__image" draggable="false" src="IMG_3340-optimized.jpg" alt="The couple sharing a kiss in front of the flower backdrop" loading="lazy" decoding="async" width="1400" height="2100" />
                 </figure>
               </div>
             </div>
-            <button class="gallery-slider__control gallery-slider__control--next" type="button" aria-label="Next photo" data-gallery-next>
-              <span aria-hidden="true">›</span>
-            </button>
+            <button class="gallery-slider__playback" type="button" data-gallery-playback>Pause slideshow</button>
             <div class="gallery-slider__dots" aria-label="Slideshow navigation">
               <button class="gallery-slider__dot is-active" type="button" aria-label="Go to photo 1" aria-current="true" data-gallery-dot="0"></button>
               <button class="gallery-slider__dot" type="button" aria-label="Go to photo 2" data-gallery-dot="1"></button>

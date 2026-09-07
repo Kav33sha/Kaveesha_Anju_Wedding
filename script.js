@@ -869,90 +869,109 @@ function setupWeddingMusic() {
 }
 
 function setupGallerySlider() {
-  if (!gallerySlider) {
-    return;
-  }
+  if (!gallerySlider) return;
 
-  const track = gallerySlider.querySelector("[data-gallery-track]");
-  const slides = Array.from(gallerySlider.querySelectorAll(".gallery-slide"));
-  const dots = Array.from(gallerySlider.querySelectorAll("[data-gallery-dot]"));
-  const prevButton = gallerySlider.querySelector("[data-gallery-prev]");
-  const nextButton = gallerySlider.querySelector("[data-gallery-next]");
-
-  if (!track || slides.length === 0) {
-    return;
-  }
+  const viewport = gallerySlider.querySelector('.gallery-slider__viewport');
+  const track = gallerySlider.querySelector('[data-gallery-track]');
+  const slides = Array.from(gallerySlider.querySelectorAll('.gallery-slide'));
+  const dots = Array.from(gallerySlider.querySelectorAll('[data-gallery-dot]'));
+  const playback = gallerySlider.querySelector('[data-gallery-playback]');
+  if (!viewport || !track || !slides.length) return;
 
   let currentIndex = 0;
   let autoplayId = null;
+  let paused = prefersReducedMotion;
+  let gesture = null;
+  let suppressClick = false;
 
   const renderSlide = (nextIndex) => {
     currentIndex = (nextIndex + slides.length) % slides.length;
     track.style.transform = `translateX(-${currentIndex * 100}%)`;
-
     slides.forEach((slide, index) => {
-      slide.classList.toggle("is-active", index === currentIndex);
+      slide.classList.toggle('is-active', index === currentIndex);
+      slide.setAttribute('aria-hidden', String(index !== currentIndex));
     });
-
     dots.forEach((dot, index) => {
-      const isActive = index === currentIndex;
-      dot.classList.toggle("is-active", isActive);
-      dot.setAttribute("aria-current", isActive ? "true" : "false");
+      dot.classList.toggle('is-active', index === currentIndex);
+      dot.setAttribute('aria-current', String(index === currentIndex));
     });
   };
 
   const stopAutoplay = () => {
-    if (autoplayId) {
-      window.clearInterval(autoplayId);
-      autoplayId = null;
-    }
+    window.clearInterval(autoplayId);
+    autoplayId = null;
   };
-
   const startAutoplay = () => {
-    if (prefersReducedMotion || autoplayId || slides.length < 2) {
-      return;
-    }
-
-    autoplayId = window.setInterval(() => {
-      renderSlide(currentIndex + 1);
-    }, 4200);
+    stopAutoplay();
+    if (paused || document.hidden || gesture || slides.length < 2) return;
+    autoplayId = window.setInterval(() => renderSlide(currentIndex + 1), 4200);
+  };
+  const navigate = (index) => {
+    renderSlide(index);
+    startAutoplay();
   };
 
-  prevButton?.addEventListener("click", () => {
-    renderSlide(currentIndex - 1);
+  viewport.addEventListener('pointerdown', (event) => {
+    if (!event.isPrimary || event.button !== 0) return;
+    suppressClick = false;
+    gesture = { id: event.pointerId, x: event.clientX, y: event.clientY, dx: 0, horizontal: false };
+    viewport.setPointerCapture(event.pointerId);
     stopAutoplay();
-    startAutoplay();
   });
-
-  nextButton?.addEventListener("click", () => {
-    renderSlide(currentIndex + 1);
-    stopAutoplay();
-    startAutoplay();
+  viewport.addEventListener('pointermove', (event) => {
+    if (!gesture || event.pointerId !== gesture.id) return;
+    gesture.dx = event.clientX - gesture.x;
+    const dy = event.clientY - gesture.y;
+    if (Math.abs(gesture.dx) > 8 || Math.abs(dy) > 8) suppressClick = true;
+    if (!gesture.horizontal && Math.abs(gesture.dx) > 8 && Math.abs(gesture.dx) > Math.abs(dy)) {
+      gesture.horizontal = true;
+      viewport.classList.add('is-dragging');
+    }
+    if (gesture.horizontal) {
+      const offset = Math.max(-viewport.clientWidth, Math.min(viewport.clientWidth, gesture.dx));
+      track.style.transform = `translateX(calc(-${currentIndex * 100}% + ${offset}px))`;
+    }
   });
-
-  dots.forEach((dot, index) => {
-    dot.addEventListener("click", () => {
-      renderSlide(index);
-      stopAutoplay();
-      startAutoplay();
-    });
-  });
-
-  gallerySlider.addEventListener("pointerenter", stopAutoplay);
-  gallerySlider.addEventListener("pointerleave", startAutoplay);
-  gallerySlider.addEventListener("focusin", stopAutoplay);
-  gallerySlider.addEventListener("focusout", (event) => {
-    if (event.relatedTarget instanceof Node && gallerySlider.contains(event.relatedTarget)) {
+  const finishGesture = (event) => {
+    if (!gesture || event.pointerId !== gesture.id) return;
+    const completed = gesture;
+    gesture = null;
+    viewport.classList.remove('is-dragging');
+    if (viewport.hasPointerCapture(event.pointerId)) viewport.releasePointerCapture(event.pointerId);
+    const change = event.type === 'pointerup' && completed.horizontal && Math.abs(completed.dx) >= Math.min(70, viewport.clientWidth * 0.15);
+    if (event.type !== 'pointerup') suppressClick = true;
+    navigate(currentIndex + (change ? (completed.dx < 0 ? 1 : -1) : 0));
+  };
+  viewport.addEventListener('pointerup', finishGesture);
+  viewport.addEventListener('pointercancel', finishGesture);
+  viewport.addEventListener('lostpointercapture', finishGesture);
+  viewport.addEventListener('click', () => {
+    if (suppressClick) {
+      suppressClick = false;
       return;
     }
-
+    navigate(currentIndex + 1);
+  });
+  viewport.addEventListener('dragstart', (event) => event.preventDefault());
+  viewport.addEventListener('keydown', (event) => {
+    if (!['ArrowLeft', 'ArrowRight', 'Enter', ' '].includes(event.key)) return;
+    event.preventDefault();
+    navigate(currentIndex + (event.key === 'ArrowLeft' ? -1 : 1));
+  });
+  dots.forEach((dot, index) => dot.addEventListener('click', () => navigate(index)));
+  const updatePlayback = () => {
+    if (playback) playback.textContent = paused ? 'Play slideshow' : 'Pause slideshow';
+  };
+  playback?.addEventListener('click', () => {
+    paused = !paused;
+    updatePlayback();
     startAutoplay();
   });
-
+  document.addEventListener('visibilitychange', startAutoplay);
   renderSlide(0);
+  updatePlayback();
   startAutoplay();
 }
-
 updateCountdown();
 setupScrollReveal();
 setupNavSpy();
