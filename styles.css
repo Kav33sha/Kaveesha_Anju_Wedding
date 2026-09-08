@@ -2938,7 +2938,6 @@ button.button:disabled {
 .gallery-slider__dot.is-active { background-color: #00a36c; }
 
 @media (max-width: 720px) {
-  .petal-shower { display: none; }
   #gallery {
     width: calc(100% + 16px);
     margin-inline: -8px;
